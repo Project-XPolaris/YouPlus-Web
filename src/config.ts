@@ -4,5 +4,6 @@ export const ApplicationConfig = {
     apps: '/apps',
     runApp: '/app/run',
     stopApp: '/app/stop',
+    autostart:'/autoStartApps'
   }
 }

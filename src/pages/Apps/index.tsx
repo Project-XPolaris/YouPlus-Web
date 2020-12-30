@@ -23,7 +23,13 @@ export default function AppsPage({}: AppsPagePropsType) {
                 <Grid container>
                     {model.appList.map((app: App) => (
                         <Grid xs={3} item>
-                            <AppCard app={app}/>
+                            <AppCard
+                                app={app}
+                                onStart={() => model.start(app.id)}
+                                onStop={() => model.stop(app.id)}
+                                enableAutoStart={() => model.addToAutoStart(app.id)}
+                                disableAutoStart={() => model.removeAutoStart(app.id)}
+                            />
                         </Grid>
                     ))}
                 </Grid>

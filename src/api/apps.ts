@@ -7,6 +7,7 @@ export type App = {
     name: string
     pid: number
     status: AppStatus
+    auto_start: boolean
 }
 export type FetchAppsResponse = {
     apps: App[]
@@ -25,4 +26,11 @@ export const startApp = async (appId: string) => {
 }
 export const stopApp = async (appId: string) => {
     return await apiRequest.post(ApplicationConfig.apiPaths.stopApp, {params: {id: appId}})
+}
+
+export const setAutoStart = (id: string) => {
+    return apiRequest.post(ApplicationConfig.apiPaths.autostart, {data: {id}})
+}
+export const removeAutoStart = (id:string) => {
+    return apiRequest.delete(ApplicationConfig.apiPaths.autostart, {data: {id}})
 }

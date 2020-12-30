@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 
 import AppsPage from "../../pages/Apps";
+import ShareFolder from "../../pages/ShareFolder";
 
 const drawerWidth = 240;
 
@@ -51,6 +52,9 @@ export default function BaseLayout() {
                 <main className={classes.content}>
                     <Toolbar/>
                     <Switch>
+                        <Route path="/folders">
+                            <ShareFolder/>
+                        </Route>
                         <Route path="/">
                             <AppsPage/>
                         </Route>
