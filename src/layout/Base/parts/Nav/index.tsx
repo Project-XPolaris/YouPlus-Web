@@ -6,9 +6,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
-import {Apps, Folder} from "@material-ui/icons";
-import { useHistory } from "react-router-dom";
+import {Apps, Archive, Dns, Folder, Inbox, Person, Storage, Store, SwapCalls} from "@material-ui/icons";
+import {useHistory} from "react-router-dom";
 import {useUpdate} from "ahooks";
+import {ListSubheader} from "@material-ui/core";
 
 const drawerWidth = 240;
 const useStyles = makeStyles({
@@ -34,7 +35,7 @@ export default function AppNavigation({}: AppNavigationPropsType) {
     const classes = useStyles();
     const history = useHistory();
     const update = useUpdate();
-    const changeUrl = (urlPath:string) => {
+    const changeUrl = (urlPath: string) => {
         if (history.location.pathname !== urlPath) {
             history.replace(urlPath)
             update()
@@ -51,7 +52,13 @@ export default function AppNavigation({}: AppNavigationPropsType) {
         >
             <Toolbar/>
             <div className={classes.drawerContainer}>
-                <List>
+                <List
+                    subheader={
+                        <ListSubheader component="div">
+                            General
+                        </ListSubheader>
+                    }
+                >
                     <ListItem
                         button
                         key={"apps"}
@@ -63,6 +70,59 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                         </ListItemIcon>
                         <ListItemText primary={"Apps"}/>
                     </ListItem>
+                </List>
+                <List
+                    subheader={
+                        <ListSubheader component="div">
+                            Data
+                        </ListSubheader>
+                    }
+                >
+
+                    <ListItem
+                        button
+                        key={"disks"}
+                        selected={history.location.pathname === "/disks"}
+                        onClick={() => changeUrl("/disks")}
+                    >
+                        <ListItemIcon>
+                            <Storage/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Disks"}/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={"parts"}
+                        selected={history.location.pathname === "/parts"}
+                        onClick={() => changeUrl("/parts")}
+                    >
+                        <ListItemIcon>
+                            <Inbox/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Parts"}/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={"zfs"}
+                        selected={history.location.pathname === "/zfs"}
+                        onClick={() => changeUrl("/zfs")}
+                    >
+                        <ListItemIcon>
+                            <Dns/>
+                        </ListItemIcon>
+                        <ListItemText primary={"ZFS"}/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={"storage"}
+                        selected={history.location.pathname === "/storage"}
+                        onClick={() => changeUrl("/storage")}
+                    >
+                        <ListItemIcon>
+                            <Archive/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Storage"}/>
+                    </ListItem>
                     <ListItem
                         button
                         key={"shareFolder"}
@@ -73,6 +133,25 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                             <Folder/>
                         </ListItemIcon>
                         <ListItemText primary={"Share Folders"}/>
+                    </ListItem>
+                </List>
+                <List
+                    subheader={
+                        <ListSubheader component="div">
+                            System
+                        </ListSubheader>
+                    }
+                >
+                    <ListItem
+                        button
+                        key={"users"}
+                        selected={history.location.pathname === "/users"}
+                        onClick={() => changeUrl("/users")}
+                    >
+                        <ListItemIcon>
+                            <Person/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Users"}/>
                     </ListItem>
                 </List>
 

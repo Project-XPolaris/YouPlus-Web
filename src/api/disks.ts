@@ -1,0 +1,37 @@
+import apiRequest from "../utils/request";
+import {ApplicationConfig} from "../config";
+
+export interface FetchDisksResponse {
+    disks: Disk[]
+}
+
+export interface Part {
+    name: string
+    fs_type: string
+}
+
+export interface Disk {
+    name: string
+    model: string
+    size: string
+    parts?: Part[]
+}
+
+export const fetchDisks = async (): Promise<FetchDisksResponse> => {
+    return await apiRequest.get(ApplicationConfig.apiPaths.disks)
+}
+export const fetchParts = async (): Promise<Part[]> => {
+    const response = await fetchDisks()
+    let result: Part[] = []
+    if (!response.disks) {
+        return []
+    }
+    response.disks.forEach(disk => {
+        if (disk.parts) {
+            disk.parts.forEach(part => {
+                result.push(part)
+            })
+        }
+    })
+    return result
+}

@@ -4,10 +4,9 @@ import {Grid, Typography} from "@material-ui/core";
 import AppCard from "../../components/AppCard";
 import useAppsPageModel from "./model";
 import {App} from "../../api/apps";
+import useStyles from "./style";
 
-const useStyles = makeStyles({
-    main: {}
-});
+
 
 interface AppsPagePropsType {
 
@@ -18,11 +17,11 @@ export default function AppsPage({}: AppsPagePropsType) {
     const classes = useStyles();
     const model = useAppsPageModel()
     return (
-        <div className={classes.main}>
+        <div className={classes.root}>
             <Typography variant={"h5"}>
-                <Grid container>
+                <Grid container spacing={2}>
                     {model.appList.map((app: App) => (
-                        <Grid xs={3} item>
+                        <Grid xs={2} item>
                             <AppCard
                                 app={app}
                                 onStart={() => model.start(app.id)}

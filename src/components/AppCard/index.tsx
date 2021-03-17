@@ -13,23 +13,10 @@ import {
 } from "@material-ui/core";
 import {Apps, MoreVert} from "@material-ui/icons";
 import {App} from "../../api/apps";
+import {getAppIconUrl} from "../../utils/app";
+import useStyles from "./style";
 
-const useStyles = makeStyles(theme => ({
-    main: {},
-    header: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: theme.spacing(2)
-    },
-    title: {
-        flex: 1
-    },
-    icon: {
-        marginRight: theme.spacing(2)
-    },
 
-}));
 
 interface AppCardPropsType {
     app: App
@@ -95,25 +82,19 @@ export default function AppCard({app, onStart, onStop, enableAutoStart, disableA
             <CardContent>
                 <div className={classes.header}>
                     <Avatar className={classes.icon}>
-                        <Apps/>
+                        <img src={getAppIconUrl(app.id)} className={classes.appicon}  />
                     </Avatar>
-                    <Typography gutterBottom variant="h6" component="div" className={classes.title}>
+                    <div className={classes.title}>
                         {app.name}
-                    </Typography>
+                    </div>
                     <IconButton onClick={handleClick}>
                         <MoreVert/>
                     </IconButton>
                 </div>
 
-                <Typography variant="subtitle1" color="textSecondary" component="p">
-                    Status:{app.status}
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary" component="p">
-                    Pid:{app.pid}
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary" component="p">
-                    AutoStart:{app.auto_start ? "Yes" : "No"}
-                </Typography>
+                <div className={classes.status}>
+                    {app.status}
+                </div>
             </CardContent>
             <CardActions>
                 {
