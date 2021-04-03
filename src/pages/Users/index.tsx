@@ -1,20 +1,33 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useStyles from "./style";
-import {Avatar, Button, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
+import {
+    Avatar,
+    Button, IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    ListItemText, Menu,
+    Typography
+} from "@material-ui/core";
 import useUsersModel from "./model";
-import {Add, Person} from "@material-ui/icons";
+import {Add, MoreVert, Person} from "@material-ui/icons";
 import useLayoutModel from "../../model/layout";
 import NewUserDialog from "../../components/NewUserDialog";
+import {useContextMenu} from "../../hooks/ContextMenu";
 
 export interface UsersPagePropsType {
 
 }
-
 const UsersPage = ({}: UsersPagePropsType) => {
     const classes = useStyles()
     const usersModel = useUsersModel()
     const layoutModel = useLayoutModel()
+    const userContextMenu = useContextMenu<string>()
     const onSwitchNewUserDialog = layoutModel.getDialogSwitchHandler("newUser")
+    useEffect(() => {
+        usersModel.initData()
+    }, [])
     return (
         <div className={classes.root}>
             <NewUserDialog
@@ -42,13 +55,18 @@ const UsersPage = ({}: UsersPagePropsType) => {
                 {
                     usersModel.users.map(it => {
                         return (
-                            <ListItem key={it} button>
+                            <ListItem key={it}>
                                 <ListItemAvatar>
                                     <Avatar className={classes.avatar}>
                                         <Person />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary={it} />
+                                <ListItemSecondaryAction>
+                                    <IconButton>
+                                        <MoreVert />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
                             </ListItem>
                         )
                     })

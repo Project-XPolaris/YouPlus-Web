@@ -13,11 +13,9 @@ const ShareFoldersModel = () => {
         await createNewShare(data)
         await initData()
     }
-    useEffect(() => {
-        initData()
-    }, [])
+
     return {
-        folders,createShare
+        folders,createShare,initData
     }
 }
 const useShareFoldersModel = createModel(ShareFoldersModel)

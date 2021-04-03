@@ -1,7 +1,7 @@
 import {createModel} from "hox";
 import {useState} from "react";
 
-export type DialogKey = "newUser" | "newShare" | "newZFSPool" | 'deleteStorageConfirm' | 'poolAsStorageDialog'
+export type DialogKey = "newUser" | "newShare" | "newZFSPool" | 'deleteStorageConfirm' | 'poolAsStorageDialog' | "changePassword"
 const LayoutModel = () => {
     const [dialogs, setDialogs] = useState<{ [key: string]: boolean }>({})
 

@@ -16,11 +16,9 @@ const StorageModel = () => {
         await createStorage({source,type})
         await init()
     }
-    useEffect(() => {
-        init()
-    }, [])
+
     return {
-        storages, remove, addStorage
+        storages, remove, addStorage,init
     }
 }
 const useStorageModel = createModel(StorageModel)

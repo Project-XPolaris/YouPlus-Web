@@ -8,11 +8,9 @@ const DisksModel = () => {
         const response = await fetchDisks()
         setDisks(response.disks)
     }
-    useEffect(() => {
-        initData()
-    },[])
+
     return {
-        disks
+        disks,initData
     }
 }
 const useDisksModel = createModel(DisksModel)

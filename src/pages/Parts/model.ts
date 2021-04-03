@@ -14,12 +14,8 @@ const PartsPageModel = () => {
         })
         setParts(result)
     }
-    useEffect(() => {
-        initData()
-    }, [])
-
     return {
-        parts
+        parts,initData
     }
 }
 const usePartsPageModel = createModel(PartsPageModel)

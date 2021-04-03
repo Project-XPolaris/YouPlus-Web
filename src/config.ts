@@ -9,6 +9,7 @@ export const ApplicationConfig = {
     share:"/share",
     zfs:"/zpool",
     storage: '/storage',
-    login: '/user/auth'
+    login: '/user/auth',
+    accountPassword: '/account/password'
   }
 }

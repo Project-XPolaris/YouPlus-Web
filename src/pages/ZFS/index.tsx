@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     Avatar,
     Button,
@@ -36,6 +36,9 @@ const ZFSPage = ({}: ZFSPagePropsType) => {
     const layoutModel = useLayoutModel()
     const storageModel = useStorageModel()
     const classes = useStyles()
+    useEffect(() => {
+        zfsModel.refresh()
+    },[])
     const [moreMenuEl, setMoreMenuEl] = React.useState(null);
     const createPoolDialogSwitchHandler = layoutModel.getDialogSwitchHandler("newZFSPool")
     const [contextPool, setContextPool] = useState<ZFSPool>()

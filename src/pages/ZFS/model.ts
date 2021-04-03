@@ -20,7 +20,7 @@ const ZFSModel = () => {
         await refresh()
     }
     return {
-        pools,removePool,createPool
+        pools,removePool,createPool,refresh
     }
 }
 const useZFSModel = createModel(ZFSModel)

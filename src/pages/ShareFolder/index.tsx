@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useStyles from "./style";
 import useShareFoldersModel from "./model";
 import {Avatar, Button, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
@@ -14,6 +14,9 @@ export interface ShareFolderPropsType {
 const ShareFolder = ({}: ShareFolderPropsType) => {
     const classes = useStyles()
     const model = useShareFoldersModel()
+    useEffect(() => {
+        model.initData()
+    }, [])
     const layoutModel = useLayoutModel()
     const newShareSwitchHandler = layoutModel.getDialogSwitchHandler("newShare")
     return (

@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, {useEffect} from "react";
 import usePartsPageModel from "./model";
 import {Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
 import {Inbox} from "@material-ui/icons";
@@ -11,6 +11,9 @@ export interface PartsPagePropsType {
 const PartsPage = ({}: PartsPagePropsType) => {
     const model = usePartsPageModel()
     const classes = useStyles()
+    useEffect(() => {
+        model.initData()
+    },[])
     return (
         <div>
             <Typography variant={"h4"} className={classes.title}>

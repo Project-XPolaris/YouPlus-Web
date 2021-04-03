@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useDisksModel from "./model";
 import {Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
 import {Storage, Store} from "@material-ui/icons";
@@ -11,6 +11,9 @@ export interface DisksPagePropsType {
 const DisksPage = ({}: DisksPagePropsType) => {
     const classes = useStyles()
     const model = useDisksModel()
+    useEffect(() => {
+        model.initData()
+    },[])
     return (
         <div>
             <Typography variant={"h4"} className={classes.title}>

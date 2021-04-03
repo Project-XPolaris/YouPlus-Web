@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ListPage from "../../components/ListPage";
 import useStorageModel from "./model";
 import {
@@ -26,6 +26,9 @@ const StoragePage = ({}: StoragePagePropsType) => {
     const storageModel = useStorageModel()
     const layoutModel = useLayoutModel()
     const classes = useStyles()
+    useEffect(() => {
+        storageModel.init()
+    }, [])
     const { enqueueSnackbar } = useSnackbar();
     const [contextStorage, setContextStorage] = useState<Storage>()
     const switchDeleteConfirmDialog = layoutModel.getDialogSwitchHandler('deleteStorageConfirm')

@@ -9,9 +9,7 @@ const UsersModel = () => {
         console.log(response)
         setUsers(response.users)
     }
-    useEffect(() => {
-        initData()
-    }, [])
+
     const newUser = async (username:string,password:string) => {
         await createUser(username,password)
         await initData()
