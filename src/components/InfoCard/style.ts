@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) => ({
     root: {
         padding:theme.spacing(2),
-        paddingBottom: theme.spacing(1)
+        paddingBottom: theme.spacing(2)
     },
     label:{
         ...theme.typography.caption,
@@ -16,6 +16,6 @@ const useStyles = makeStyles((theme) => ({
     bottom:{
         display: 'flex',
         flexDirection: 'row-reverse'
-    }
+    },
 }))
 export default useStyles

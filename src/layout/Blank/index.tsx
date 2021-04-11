@@ -1,5 +1,3 @@
-import AppNavigation from "../Base/parts/Nav";
-import Toolbar from "@material-ui/core/Toolbar";
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import ZFSPage from "../../pages/ZFS";
 import StoragePage from "../../pages/Storage";
@@ -12,6 +10,8 @@ import * as React from "react";
 import BaseLayout from "../Base";
 import LoginPage from "../../pages/Login";
 import AccountPage from "../../pages/Account";
+import DashboardPage from "../../pages/DashBoard";
+import ShareFolderDetail from "../../pages/ShareFolderDetail";
 
 export interface BlankLayoutPropsType {
 
@@ -24,6 +24,7 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                 <Route path="/login">
                     <LoginPage/>
                 </Route>
+
                 <Route path="/zfs">
                     <BaseLayout>
                         <ZFSPage/>
@@ -54,14 +55,24 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                         <ShareFolder/>
                     </BaseLayout>
                 </Route>
+                <Route path="/folder/:name/info">
+                    <BaseLayout>
+                        <ShareFolderDetail/>
+                    </BaseLayout>
+                </Route>
                 <Route path="/my/account">
                     <BaseLayout>
                         <AccountPage/>
                     </BaseLayout>
                 </Route>
-                <Route path="/">
+                <Route path="/apps">
                     <BaseLayout>
                         <AppsPage/>
+                    </BaseLayout>
+                </Route>
+                <Route path="/">
+                    <BaseLayout>
+                        <DashboardPage />
                     </BaseLayout>
                 </Route>
             </Switch>

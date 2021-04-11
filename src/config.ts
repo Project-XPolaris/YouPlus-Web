@@ -7,9 +7,11 @@ export const ApplicationConfig = {
     users:"/users",
     disks:"/disks",
     share:"/share",
+    shareUpdate:"/share/update",
     zfs:"/zpool",
     storage: '/storage',
     login: '/user/auth',
-    accountPassword: '/account/password'
+    accountPassword: '/account/password',
+    systemInfo: '/system/info',
   }
 }

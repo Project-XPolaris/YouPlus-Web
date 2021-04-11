@@ -9,9 +9,9 @@ const AppsPageModel = () => {
         const response = await fetchApps()
         setAppList(response.apps)
     }
-    useInterval(() => {
-        loadApp();
-    },1000)
+    // useInterval(() => {
+    //     loadApp();
+    // },1000)
     const start = async (appId:string) => {
         await startApp(appId)
     }

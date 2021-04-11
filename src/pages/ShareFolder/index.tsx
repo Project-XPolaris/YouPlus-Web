@@ -6,6 +6,7 @@ import {Add, Folder, Person} from "@material-ui/icons";
 import NewShareDialog from "../../components/NewShareDialog";
 import useLayoutModel from "../../model/layout";
 import layout from "../../model/layout";
+import {useHistory} from "react-router-dom";
 
 export interface ShareFolderPropsType {
 
@@ -14,6 +15,7 @@ export interface ShareFolderPropsType {
 const ShareFolder = ({}: ShareFolderPropsType) => {
     const classes = useStyles()
     const model = useShareFoldersModel()
+    const history = useHistory()
     useEffect(() => {
         model.initData()
     }, [])
@@ -50,13 +52,13 @@ const ShareFolder = ({}: ShareFolderPropsType) => {
                 {
                     model.folders.map(it => {
                         return (
-                            <ListItem key={it.part} button>
+                            <ListItem key={it.name} button onClick={() => history.push(`/folder/${it.name}/info`)}>
                                 <ListItemAvatar>
                                     <Avatar className={classes.avatar}>
                                         <Folder />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={it.part} secondary={it.part_name} />
+                                <ListItemText primary={it.name}/>
                             </ListItem>
                         )
                     })
