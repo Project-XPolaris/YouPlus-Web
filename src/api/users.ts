@@ -14,3 +14,11 @@ export const createUser = async (username:string,password:string):Promise<void> 
         }
     })
 }
+
+export const removeUser = async (username:string):Promise<void> => {
+    return await apiRequest.delete(ApplicationConfig.apiPaths.users,{
+        params:{
+            username
+        }
+    })
+}

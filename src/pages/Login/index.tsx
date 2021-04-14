@@ -22,7 +22,6 @@ const LoginPage = ({}: LoginPagePropsType) => {
         if (username && password && serviceUrl) {
             localStorage.setItem("apiUrl",serviceUrl)
             const result = await model.login(username, password)
-            console.log(result)
             if (result.success) {
                 enqueueSnackbar("Login success", {variant: 'success'})
                 history.replace("/")

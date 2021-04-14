@@ -4,13 +4,12 @@ import {ResponseError} from 'umi-request'
 import {useLocalStorageState} from "ahooks";
 
 const UserModel = () => {
-    const [username, setUsername] = useLocalStorageState<string>('user', 'Null');
     const login = async (username: string, password: string) => {
         try {
             const response = await fetchAuthToken(username, password)
             if (response.success) {
                 localStorage.setItem("token", response.token)
-                setUsername(username)
+                localStorage.setItem("username", username)
                 return {success: true}
             }
             return {success: false, message: response.reason}
@@ -21,10 +20,10 @@ const UserModel = () => {
     }
     const logout = () => {
         localStorage.removeItem("token")
-        setUsername("Null")
+        localStorage.removeItem("username")
     }
     return {
-        login,username,logout
+        login,logout
     }
 }
 const useUserModel = createModel(UserModel)

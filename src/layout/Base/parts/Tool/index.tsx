@@ -24,6 +24,13 @@ const AppToolbar = ({}: AppToolbarPropsType) => {
     const handleUserMenuClose = () => {
         setUserMenuEl(null);
     };
+    const getUsername = () => {
+        const username = localStorage.getItem("username")
+        if (username) {
+            return username
+        }
+        return "Unknown"
+    }
     return (
         <Toolbar>
             <Menu
@@ -42,7 +49,7 @@ const AppToolbar = ({}: AppToolbarPropsType) => {
                 YouPlus
             </Typography>
             <Avatar className={classes.avatar} onClick={handleUserMenuClick}>
-                {userModel.username?userModel.username[0]:""}
+                { getUsername()[0] }
             </Avatar>
         </Toolbar>
     )

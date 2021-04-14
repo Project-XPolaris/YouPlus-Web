@@ -1,6 +1,6 @@
 import {createModel} from "hox";
-import {useEffect, useState} from "react";
-import {createUser, getUserList} from "../../api/users";
+import {useState} from "react";
+import {createUser, getUserList, removeUser} from "../../api/users";
 
 const UsersModel = () => {
     const [users, setUsers] = useState<string[]>([])
@@ -14,8 +14,12 @@ const UsersModel = () => {
         await createUser(username,password)
         await initData()
     }
+    const remove = async (username:string) => {
+        await removeUser(username)
+        await initData()
+    }
     return {
-        users,newUser,initData
+        users,newUser,initData,remove
     }
 
 }

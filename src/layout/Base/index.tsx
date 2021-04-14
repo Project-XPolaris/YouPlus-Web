@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const BaseLayout = ({children}: { children: any }) => {
     const classes = useStyles();
-    console.log(children)
     return (
         <AuthLayout>
             <div className={classes.root}>

@@ -8,10 +8,11 @@ import {
     ListItemAvatar,
     ListItemSecondaryAction,
     ListItemText, Menu,
+    MenuItem,
     Typography
 } from "@material-ui/core";
 import useUsersModel from "./model";
-import {Add, MoreVert, Person} from "@material-ui/icons";
+import {Add, Delete, MoreVert, Person} from "@material-ui/icons";
 import useLayoutModel from "../../model/layout";
 import NewUserDialog from "../../components/NewUserDialog";
 import {useContextMenu} from "../../hooks/ContextMenu";
@@ -38,6 +39,21 @@ const UsersPage = ({}: UsersPagePropsType) => {
                     onSwitchNewUserDialog()
                 }}
             />
+            <Menu
+                open={userContextMenu.isOpen}
+                anchorEl={userContextMenu.anchor}
+                onClose={() => userContextMenu.close()}
+            >
+                <MenuItem onClick={async () => {
+                    if (userContextMenu.data) {
+                        userContextMenu.close()
+                        await usersModel.remove(userContextMenu.data)
+
+                    }
+                }}>
+                    <Delete/> Remove user
+                </MenuItem>
+            </Menu>
             <Typography variant={"h4"} className={classes.title}>
                 Users
             </Typography>
@@ -63,7 +79,7 @@ const UsersPage = ({}: UsersPagePropsType) => {
                                 </ListItemAvatar>
                                 <ListItemText primary={it} />
                                 <ListItemSecondaryAction>
-                                    <IconButton>
+                                    <IconButton onClick={(e) => userContextMenu.open(it,e.target)}>
                                         <MoreVert />
                                     </IconButton>
                                 </ListItemSecondaryAction>

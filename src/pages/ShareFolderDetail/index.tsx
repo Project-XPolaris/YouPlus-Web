@@ -1,5 +1,5 @@
 import React, {ReactElement, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import useShareFolderDetailModel from "./model";
 import useStyles from "./style";
 import InfoCard from "../../components/InfoCard";
@@ -8,17 +8,21 @@ import UserListCard from "../../components/UserListCard";
 import UserSelectDialog from "../../components/UserSelectDialog";
 import SwitchSelectDialog from "../../components/SwitchSelectDialog";
 import {getSwitchText} from "../../utils/values";
+import {Delete} from "@material-ui/icons";
+import useLayoutModel from "../../model/layout";
 
 export interface ShareFolderDetailPropsType {
 
 }
 
 type UserPickModeType = "valid user" | "write list"
-type SwitchSelectTargetType = "public"
+type SwitchSelectTargetType = "public" | 'readonly'  | "writable"
 const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
     const {name}: any = useParams();
     const classes = useStyles()
     const model = useShareFolderDetailModel()
+    const layoutModel = useLayoutModel()
+    const history = useHistory()
     useEffect(() => {
         model.initData(name)
     }, [])
@@ -47,6 +51,15 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                     public: getSwitchText(value)
                 })
                 break;
+            case 'readonly':
+                model.update({
+                    readonly: getSwitchText(value)
+                })
+                break;
+            case 'writable':
+                model.update({
+                    writable: getSwitchText(value)
+                })
         }
         setSwitchSelectTarget(undefined)
 
@@ -64,25 +77,63 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                 onClose={() => setSwitchSelectTarget(undefined)}
                 open={Boolean(switchSelectTarget)}
             />
-            <div className={classes.title}>
-                {model.folder?.name}
+            <div className={classes.header}>
+                <div className={classes.title}>
+                    {model.folder?.name}
+                </div>
+                <Button
+                    variant={'contained'}
+                    size={"small"}
+                    startIcon={<Delete />}
+                    onClick={() => {
+                        layoutModel.showConfirmDialog({
+                            title: 'Remove Confirm',
+                            message: 'Remove folder will lost ALL DATA in folder',
+                            onOk:async () => {
+                                await model.remove()
+                                history.goBack()
+                            }
+                        })
+                    }}
+                >
+                    Remove folder
+                </Button>
             </div>
+
             <Grid container spacing={4} className={classes.grid}>
-                <Grid xs={3} item>
+                <Grid xs={2} item>
                     <InfoCard label={"folder name"} value={model.folder?.name} valueSize={18}
-                              className={classes.nameCard}/>
+                              className={classes.infoCard}/>
                 </Grid>
-                <Grid xs={3} item>
+                <Grid xs={2} item>
                     <InfoCard label={"storage"} value={model.folder?.storage.id} valueSize={18}
-                              className={classes.nameCard}/>
+                              className={classes.infoCard}/>
                 </Grid>
-                <Grid xs={3} item>
+                <Grid xs={2} item>
                     <InfoCard
                         label={"public"}
                         value={model.folder?.public}
                         valueSize={18}
-                        className={classes.nameCard}
+                        className={classes.infoCard}
                         onEdit={() => setSwitchSelectTarget("public")}
+                    />
+                </Grid>
+                <Grid xs={2} item>
+                    <InfoCard
+                        label={"readonly"}
+                        value={model.folder?.readonly}
+                        valueSize={18}
+                        className={classes.infoCard}
+                        onEdit={() => setSwitchSelectTarget("readonly")}
+                    />
+                </Grid>
+                <Grid xs={2} item>
+                    <InfoCard
+                        label={"writable"}
+                        value={model.folder?.writable}
+                        valueSize={18}
+                        className={classes.infoCard}
+                        onEdit={() => setSwitchSelectTarget("writable")}
                     />
                 </Grid>
             </Grid>

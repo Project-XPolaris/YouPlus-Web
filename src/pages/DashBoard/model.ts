@@ -5,10 +5,10 @@ import {fetchSystemInfo, SystemInfo} from "../../api/style";
 
 const DashboardModel = () => {
     const [systemInfo,setSystemInfo] = useState<SystemInfo | undefined>()
-    // useInterval(async () => {
-    //     const response = await fetchSystemInfo()
-    //     setSystemInfo(response)
-    // },4000)
+    useInterval(async () => {
+        const response = await fetchSystemInfo()
+        setSystemInfo(response)
+    },4000)
     return {
         systemInfo
     }

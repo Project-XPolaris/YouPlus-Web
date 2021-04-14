@@ -1,6 +1,6 @@
 import {createModel} from "hox";
 import {useState} from "react";
-import {getShareList, ShareFolder, ShareUpdateOption, updateShare} from "../../api/share";
+import {getShareList, removeShare, ShareFolder, ShareUpdateOption, updateShare} from "../../api/share";
 
 const ShareFolderDetailModel = () => {
     const [folder, setFolder] = useState<ShareFolder | undefined>(undefined)
@@ -14,8 +14,13 @@ const ShareFolderDetailModel = () => {
             await initData(folder.name)
         }
     }
+    const remove = async () => {
+        if (folder) {
+            await removeShare(folder.id)
+        }
+    }
     return {
-        initData,folder,update
+        initData,folder,update,remove
     }
 }
 const useShareFolderDetailModel = createModel(ShareFolderDetailModel)

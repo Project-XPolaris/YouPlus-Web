@@ -113,17 +113,17 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                         </ListItemIcon>
                         <ListItemText primary={"Disks"}/>
                     </ListItem>
-                    <ListItem
-                        button
-                        key={"parts"}
-                        selected={history.location.pathname === "/parts"}
-                        onClick={() => changeUrl("/parts")}
-                    >
-                        <ListItemIcon>
-                            <Inbox/>
-                        </ListItemIcon>
-                        <ListItemText primary={"Parts"}/>
-                    </ListItem>
+                    {/*<ListItem*/}
+                    {/*    button*/}
+                    {/*    key={"parts"}*/}
+                    {/*    selected={history.location.pathname === "/parts"}*/}
+                    {/*    onClick={() => changeUrl("/parts")}*/}
+                    {/*>*/}
+                    {/*    <ListItemIcon>*/}
+                    {/*        <Inbox/>*/}
+                    {/*    </ListItemIcon>*/}
+                    {/*    <ListItemText primary={"Parts"}/>*/}
+                    {/*</ListItem>*/}
                     <ListItem
                         button
                         key={"zfs"}

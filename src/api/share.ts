@@ -2,6 +2,7 @@ import apiRequest from "../utils/request";
 import {ApplicationConfig} from "../config";
 import {UserListResponse} from "./users";
 export interface  ShareFolder {
+    id:number
     name:string
     storage:{
         id:string
@@ -14,7 +15,9 @@ export interface  ShareFolder {
         uid:string
         name:string
     }[],
-    public:string
+    public:string,
+    readonly:string
+    writable:string
 }
 export interface FetchShareFoldersResponse {
     folders:ShareFolder[]
@@ -28,10 +31,20 @@ export const createNewShare = async (data:any):Promise<void> => {
         data
     })
 }
+
+export const removeShare = async (id : number):Promise<void> => {
+    return await apiRequest.delete(ApplicationConfig.apiPaths.share,{
+        params:{
+            id
+        }
+    })
+}
 export interface ShareUpdateOption {
     validUsers?:string[]
     writeList?:string[]
     public?:string
+    readonly?:string
+    writable?:string
 }
 export const updateShare = async (name:string,option:ShareUpdateOption):Promise<void> => {
     return await apiRequest.post(ApplicationConfig.apiPaths.shareUpdate,{

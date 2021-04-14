@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import ListPage from "../../components/ListPage";
 import useStorageModel from "./model";
 import {
-    Avatar, Dialog,
+    Avatar,
     IconButton,
     List,
     ListItem,
@@ -15,7 +15,6 @@ import useStyles from "./style";
 import ListItemDialog from "../../components/ListItemDialog";
 import {Storage} from "../../api/storage";
 import useLayoutModel from "../../model/layout";
-import layout from "../../model/layout";
 import {useSnackbar} from "notistack";
 
 export interface StoragePagePropsType {

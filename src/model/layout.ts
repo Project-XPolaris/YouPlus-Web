@@ -1,7 +1,14 @@
 import {createModel} from "hox";
 import {useState} from "react";
+import {useConfirmDialog} from "../hooks/ConfirmDialog";
 
-export type DialogKey = "newUser" | "newShare" | "newZFSPool" | 'deleteStorageConfirm' | 'poolAsStorageDialog' | "changePassword"
+export type DialogKey =
+    "newUser"
+    | "newShare"
+    | "newZFSPool"
+    | 'deleteStorageConfirm'
+    | 'poolAsStorageDialog'
+    | "changePassword"
 const LayoutModel = () => {
     const [dialogs, setDialogs] = useState<{ [key: string]: boolean }>({})
 
@@ -17,8 +24,13 @@ const LayoutModel = () => {
     const getDialogSwitchHandler = (dialogKey: DialogKey) => {
         return () => switchDialog(dialogKey)
     }
+    const confirmDialogController = useConfirmDialog()
     return {
-        switchDialog, getDialogSwitchHandler,getDialogOpen
+        switchDialog,
+        getDialogSwitchHandler,
+        getDialogOpen,
+        showConfirmDialog: confirmDialogController.openDialog,
+        confirmDialogController: confirmDialogController
     }
 }
 const useLayoutModel = createModel(LayoutModel)

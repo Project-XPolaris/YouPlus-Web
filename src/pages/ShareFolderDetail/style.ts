@@ -4,11 +4,15 @@ const useStyles = makeStyles((theme) => ({
     root: {
         padding:theme.spacing(2)
     },
-    title:{
-        ...theme.typography.h4
+    header:{
+        display: 'flex'
     },
-    nameCard:{
-
+    title:{
+        ...theme.typography.h4,
+        flexGrow: 1
+    },
+    infoCard:{
+height: theme.spacing(10),
         marginTop: theme.spacing(4)
     },
     userListItem:{
@@ -40,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     },
     grid:{
         marginBottom: theme.spacing(2)
+    },
+    removeButton:{
+        backgroundColor: "red"
     }
 }))
 export default useStyles
