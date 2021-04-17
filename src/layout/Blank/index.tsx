@@ -14,6 +14,8 @@ import DashboardPage from "../../pages/DashBoard";
 import ShareFolderDetail from "../../pages/ShareFolderDetail";
 import useLayoutModel from "../../model/layout";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import GroupsPage from "../../pages/Groups";
+import GroupDetailPage from "../../pages/GroupDetail";
 
 export interface BlankLayoutPropsType {
 
@@ -100,6 +102,16 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                     <Route path="/apps">
                         <BaseLayout>
                             <AppsPage/>
+                        </BaseLayout>
+                    </Route>
+                    <Route path="/groups">
+                        <BaseLayout>
+                            <GroupsPage />
+                        </BaseLayout>
+                    </Route>
+                    <Route path="/group/:name/info">
+                        <BaseLayout>
+                            <GroupDetailPage />
                         </BaseLayout>
                     </Route>
                     <Route path="/">

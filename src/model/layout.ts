@@ -9,6 +9,8 @@ export type DialogKey =
     | 'deleteStorageConfirm'
     | 'poolAsStorageDialog'
     | "changePassword"
+    | "newgroup"
+    | "group/addUser"
 const LayoutModel = () => {
     const [dialogs, setDialogs] = useState<{ [key: string]: boolean }>({})
 

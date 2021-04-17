@@ -13,19 +13,26 @@ import {Delete, Person, Remove} from "@material-ui/icons";
 import useStyles from "./style";
 
 export interface UserListCardPropsType {
-    users?:{uid:string,name:string}[]
-    title?:string
-    actions?:ReactElement
-    onRemove:(name:string) => void
+    users?: { uid: string, name: string }[]
+    title?: string
+    actions?: ReactElement
+    onRemove: (name: string) => void
+    className?: any
 }
 
-const UserListCard = ({onRemove,actions,users = [],title = "users"}: UserListCardPropsType): ReactElement => {
+const UserListCard = ({
+                          className,
+                          onRemove,
+                          actions,
+                          users = [],
+                          title = "users"
+                      }: UserListCardPropsType): ReactElement => {
     const classes = useStyles()
     return (
-        <Paper>
+        <Paper className={className}>
             <div className={classes.userListHeader}>
                 <div className={classes.usersListTitle}>
-                    { title }
+                    {title}
                 </div>
                 {actions}
             </div>
@@ -33,7 +40,7 @@ const UserListCard = ({onRemove,actions,users = [],title = "users"}: UserListCar
                 {
                     users.map(it => {
                         return (
-                            <ListItem key={it.uid}  className={classes.userListItem}>
+                            <ListItem key={it.uid} className={classes.userListItem}>
                                 <ListItemAvatar>
                                     <Avatar className={classes.userListIcon}>
                                         <Person/>

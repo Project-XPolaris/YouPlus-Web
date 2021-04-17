@@ -12,7 +12,7 @@ import {
     Assignment,
     Dashboard,
     Dns,
-    Folder,
+    Folder, Group,
     Inbox,
     Person,
     Storage,
@@ -175,6 +175,17 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                             <Person/>
                         </ListItemIcon>
                         <ListItemText primary={"Users"}/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={"groups"}
+                        selected={history.location.pathname === "/groups"}
+                        onClick={() => changeUrl("/groups")}
+                    >
+                        <ListItemIcon>
+                            <Group/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Groups"}/>
                     </ListItem>
                 </List>
                 <List
