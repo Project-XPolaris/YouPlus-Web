@@ -11,6 +11,7 @@ export type DialogKey =
     | "changePassword"
     | "newgroup"
     | "group/addUser"
+    | "installApp"
 const LayoutModel = () => {
     const [dialogs, setDialogs] = useState<{ [key: string]: boolean }>({})
 

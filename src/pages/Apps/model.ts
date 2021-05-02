@@ -1,6 +1,15 @@
 import {createModel} from "hox";
 import {useState} from "react";
-import {App, fetchApps, removeAutoStart, setAutoStart, startApp, stopApp} from "../../api/apps";
+import {
+    App,
+    fetchApps,
+    installApp,
+    removeAutoStart,
+    setAutoStart,
+    startApp,
+    stopApp,
+    unInstallAPP
+} from "../../api/apps";
 import {useInterval} from "ahooks";
 
 const AppsPageModel = () => {
@@ -24,8 +33,14 @@ const AppsPageModel = () => {
     const removeFromAutoStart = async (appId:string) => {
         await removeAutoStart(appId)
     }
+    const uninstall = async (id:string) => {
+        await unInstallAPP(id)
+    }
+    const install = async (file:File) => {
+        await installApp(file)
+    }
     return {
-        appList,loadApp,start,stop,addToAutoStart,removeAutoStart
+        appList,loadApp,start,stop,addToAutoStart,removeAutoStart,uninstall,install
     }
 }
 const useAppsPageModel = createModel(AppsPageModel)

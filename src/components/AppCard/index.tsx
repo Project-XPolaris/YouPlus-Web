@@ -24,10 +24,11 @@ interface AppCardPropsType {
     onStop?: () => void
     enableAutoStart?: () => void
     disableAutoStart?: () => void
+    onRemove:() => void
 }
 
 
-export default function AppCard({app, onStart, onStop, enableAutoStart, disableAutoStart}: AppCardPropsType) {
+export default function AppCard({app, onStart, onStop, enableAutoStart, disableAutoStart,onRemove}: AppCardPropsType) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -73,6 +74,16 @@ export default function AppCard({app, onStart, onStop, enableAutoStart, disableA
                             Enable autostart
                         </MenuItem>
                 }
+                <MenuItem
+                    onClick={
+                        () => {
+                            onRemove()
+                            handleClose()
+                        }
+                    }
+                >
+                    Uninstall
+                </MenuItem>
             </Menu>
         )
     }

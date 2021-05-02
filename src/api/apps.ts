@@ -34,3 +34,14 @@ export const setAutoStart = (id: string) => {
 export const removeAutoStart = (id:string) => {
     return apiRequest.delete(ApplicationConfig.apiPaths.autostart, {data: {id}})
 }
+
+export const unInstallAPP = (id:string) => {
+    return apiRequest.post(ApplicationConfig.apiPaths.uninstallApp,{ params: {id: id } })
+}
+export const installApp = (file:File) => {
+    const form = new FormData()
+    form.append("file",file)
+    return apiRequest.post(ApplicationConfig.apiPaths.installApp,{
+        data: form
+    })
+}

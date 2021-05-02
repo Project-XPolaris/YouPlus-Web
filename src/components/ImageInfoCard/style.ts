@@ -2,11 +2,13 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      padding:theme.spacing(2)
+      padding:theme.spacing(2),
+      display:"flex",
+      flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    sectionTitle:{
-        marginTop:theme.spacing(3),
-        marginBottom:theme.spacing(2),
+    text:{
         ...theme.typography.h6
     }
 }))

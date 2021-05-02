@@ -1,6 +1,8 @@
 export const ApplicationConfig = {
   apiPaths: {
     apps: '/apps',
+    uninstallApp: '/apps/uninstall',
+    installApp: '/apps/upload',
     runApp: '/app/run',
     stopApp: '/app/stop',
     autostart:'/autoStartApps',
