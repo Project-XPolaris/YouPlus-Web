@@ -3,10 +3,10 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import AppNavigation from "./parts/Nav";
 import AuthLayout from "../Auth";
 import AppToolbar from "./parts/Tool";
+import Notification from "../Notification";
 
 const drawerWidth = 240;
 
@@ -31,6 +31,7 @@ const BaseLayout = ({children}: { children: any }) => {
     const classes = useStyles();
     return (
         <AuthLayout>
+            <Notification />
             <div className={classes.root}>
                 <CssBaseline/>
                 <AppBar position="fixed" className={classes.appBar}>

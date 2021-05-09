@@ -19,6 +19,7 @@
     "@types/react-dom": "^16.9.8",
     "ahooks": "^2.9.3",
     "clsx": "^1.1.1",
+    "dayjs": "^1.10.4",
     "filesize": "^6.1.0",
     "hox": "^1.1.2",
     "notistack": "^1.0.3",

@@ -16,7 +16,7 @@ const StorageStep = ({onSelect,selectedStorage}: StorageStepPropsType) => {
     const partsModel = usePartsPageModel()
     const storageModel = useStorageModel()
     useEffect(() => {
-
+        storageModel.init()
     },[])
     return (
         <div className={classes.root}>

@@ -7,6 +7,7 @@ import {App} from "../../api/apps";
 import useStyles from "./style";
 import InstallAppDialog from "../../components/InstallAppDialog";
 import useLayoutModel from "../../model/layout";
+import {Add} from "@material-ui/icons";
 
 
 interface AppsPagePropsType {
@@ -37,6 +38,8 @@ export default function AppsPage({}: AppsPagePropsType) {
                 <Button
                     variant="contained"
                     onClick={() => layoutModel.switchDialog("installApp")}
+                    color="secondary"
+                    startIcon={<Add />}
                 >
                     Install App
                 </Button>

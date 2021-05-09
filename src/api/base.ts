@@ -1,4 +1,4 @@
 export interface BaseResponse {
     success: boolean
-    reason:string
+    reason?:string
 }

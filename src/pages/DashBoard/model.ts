@@ -23,12 +23,12 @@ const DashboardModel = () => {
         const userListResponse = await getUserList()
         setUserCount(userListResponse.users.length)
     }
-    useInterval(async () => {
+    const refreshSystemInfo = async () => {
         const response = await fetchSystemInfo()
         setSystemInfo(response)
-    },4000)
+    }
     return {
-        systemInfo,initData,diskCount,storageCount,shareFolderCount,userCount
+        systemInfo,initData,diskCount,storageCount,shareFolderCount,userCount,refreshSystemInfo
     }
 }
 const useDashboardModel = createModel(DashboardModel)

@@ -18,5 +18,6 @@ export const ApplicationConfig = {
     login: '/admin/auth',
     accountPassword: '/account/password',
     systemInfo: '/system/info',
+    tasks: '/tasks',
   }
 }

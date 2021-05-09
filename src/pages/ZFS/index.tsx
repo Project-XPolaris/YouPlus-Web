@@ -26,6 +26,7 @@ import ListItemDialog from "../../components/ListItemDialog";
 import {ZFSPool} from "../../api/zfs";
 import useStorageModel from "../Storage/model";
 import {useSnackbar} from "notistack";
+import {useHistory} from "react-router-dom";
 
 export interface ZFSPagePropsType {
 
@@ -35,6 +36,7 @@ const ZFSPage = ({}: ZFSPagePropsType) => {
     const zfsModel = useZFSModel()
     const layoutModel = useLayoutModel()
     const storageModel = useStorageModel()
+    const history = useHistory()
     const classes = useStyles()
     useEffect(() => {
         zfsModel.refresh()
@@ -160,7 +162,7 @@ const ZFSPage = ({}: ZFSPagePropsType) => {
                     {
                         zfsModel.pools.map(pool => {
                             return (
-                                <ListItem key={pool.name} button>
+                                <ListItem key={pool.name} button onClick={() => history.push(`/pool/${pool.name}/info`)}>
                                     <ListItemAvatar>
                                         <Avatar className={classes.avatar}>
                                             <Dns/>

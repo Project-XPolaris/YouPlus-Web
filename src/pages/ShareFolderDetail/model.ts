@@ -1,6 +1,7 @@
 import {createModel} from "hox";
 import {useState} from "react";
 import {getShareList, removeShare, ShareFolder, ShareUpdateOption, updateShare} from "../../api/share";
+import {showAPIResponseErrorMessage, showGlobalSnackMessage} from "../../utils/message";
 
 const ShareFolderDetailModel = () => {
     const [folder, setFolder] = useState<ShareFolder | undefined>(undefined)
@@ -16,7 +17,12 @@ const ShareFolderDetailModel = () => {
     }
     const remove = async () => {
         if (folder) {
-            await removeShare(folder.id)
+            const response = await removeShare(folder.id)
+            if (response.success) {
+                showGlobalSnackMessage("remove share folder success",{variant:"success"})
+            }else{
+                showAPIResponseErrorMessage(response)
+            }
         }
     }
     return {

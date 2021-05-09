@@ -7,6 +7,8 @@ import {Avatar, ButtonBase, Menu, MenuItem} from "@material-ui/core";
 import {Person} from "@material-ui/icons";
 import useUserModel from "../../../../model/user";
 import {useHistory} from "react-router-dom";
+import TaskPopup from "../Task";
+import UserPopup from "../../../../components/UserPopup";
 
 export interface AppToolbarPropsType {
 
@@ -31,26 +33,26 @@ const AppToolbar = ({}: AppToolbarPropsType) => {
         }
         return "Unknown"
     }
+
     return (
         <Toolbar>
-            <Menu
-                anchorEl={userMenuEl}
-                keepMounted
+            <UserPopup
+                username={getUsername()}
                 open={Boolean(userMenuEl)}
+                anchorEl={userMenuEl}
                 onClose={handleUserMenuClose}
-            >
-                <MenuItem onClick={() => {
-                    handleUserMenuClose()
-                    userModel.logout()
-                    history.replace("/login")
-                }}>Logout</MenuItem>
-            </Menu>
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+            />
             <Typography variant="h6" noWrap component="div" className={classes.title}>
                 YouPlus
             </Typography>
             <Avatar className={classes.avatar} onClick={handleUserMenuClick}>
                 { getUsername()[0] }
             </Avatar>
+            <TaskPopup className={classes.actionIcon} />
         </Toolbar>
     )
 }

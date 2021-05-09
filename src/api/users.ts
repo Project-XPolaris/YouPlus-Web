@@ -24,7 +24,7 @@ export type UserGroupDetail = UserGroup & {
 export const getUserList = async (): Promise<UserListResponse> => {
     return await apiRequest.get(ApplicationConfig.apiPaths.users)
 }
-export const createUser = async (username: string, password: string): Promise<void> => {
+export const createUser = async (username: string, password: string): Promise<BaseResponse> => {
     return await apiRequest.post(ApplicationConfig.apiPaths.users, {
         data: {
             username, password
@@ -32,7 +32,7 @@ export const createUser = async (username: string, password: string): Promise<vo
     })
 }
 
-export const removeUser = async (username: string): Promise<void> => {
+export const removeUser = async (username: string): Promise<BaseResponse> => {
     return await apiRequest.delete(ApplicationConfig.apiPaths.users, {
         params: {
             username

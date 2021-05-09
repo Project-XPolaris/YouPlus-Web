@@ -1,0 +1,15 @@
+[Unit]
+Description=YouPlus web service
+
+
+[Service]
+StartLimitInterval=5
+StartLimitBurst=10
+ExecStart=serve ./app
+WorkingDirectory=YMWorkDir
+Restart=always
+RestartSec=120
+EnvironmentFile=-/etc/sysconfig/YouPlusWebService
+
+[Install]
+WantedBy=multi-user.target

@@ -16,6 +16,9 @@ import useLayoutModel from "../../model/layout";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
 import GroupsPage from "../../pages/Groups";
 import GroupDetailPage from "../../pages/GroupDetail";
+import PoolDetailPage from "../../pages/PoolDetail";
+import {OptionsObject, SnackbarMessage, useSnackbar} from "notistack";
+import {useEffect} from "react";
 
 export interface BlankLayoutPropsType {
 
@@ -23,6 +26,14 @@ export interface BlankLayoutPropsType {
 
 const BlankLayout = ({}: BlankLayoutPropsType) => {
     const layoutModel = useLayoutModel()
+    const { enqueueSnackbar } = useSnackbar()
+    const onGlobalSnackMessage = (e: any) => {
+        const { message,options } : {message: SnackbarMessage, options?: OptionsObject} = e.detail
+        enqueueSnackbar(message,options)
+    }
+    useEffect(() => {
+        document.addEventListener("globalMessage",onGlobalSnackMessage)
+    },[])
     return (
         <div>
             <Dialog open={layoutModel.confirmDialogController.open} onClose={layoutModel.confirmDialogController.onClose}>
@@ -62,6 +73,11 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                     <Route path="/zfs">
                         <BaseLayout>
                             <ZFSPage/>
+                        </BaseLayout>
+                    </Route>
+                    <Route path="/pool/:name/info">
+                        <BaseLayout>
+                            <PoolDetailPage/>
                         </BaseLayout>
                     </Route>
                     <Route path="/storage">

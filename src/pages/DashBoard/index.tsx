@@ -9,6 +9,7 @@ import useDisksModel from "../Disks/model";
 import StorageIcon from "../../components/Icons/StorageIcon";
 import ShareFolderIcon from "../../components/Icons/ShareFolderIcon";
 import UserIcon from "../../components/Icons/UserIcon";
+import {useInterval} from "ahooks";
 
 export interface DashboardPagePropsType {
 
@@ -17,6 +18,9 @@ export interface DashboardPagePropsType {
 const DashboardPage = ({}: DashboardPagePropsType): ReactElement => {
     const classes = useStyles()
     const model = useDashboardModel()
+    useInterval(() => {
+        model.refreshSystemInfo()
+    },4000)
     useEffect(() => {
         model.initData()
     },[])

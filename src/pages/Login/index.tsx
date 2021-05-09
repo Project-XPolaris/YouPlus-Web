@@ -1,7 +1,7 @@
 import useStyles from "./style";
 import {Button, Paper, TextField} from "@material-ui/core";
 import useUserModel from "../../model/user";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSnackbar} from "notistack";
 import {useHistory} from "react-router-dom";
 import {useLocalStorageState} from "ahooks";
@@ -15,9 +15,12 @@ const LoginPage = ({}: LoginPagePropsType) => {
     const {enqueueSnackbar} = useSnackbar();
     const [username, setUsername] = useState<string | undefined>()
     const [password, setPassword] = useState<string | undefined>()
-    const [serviceUrl,setServiceUrl] = useState<string | undefined>("http://localhost:8999")
+    const [serviceUrl,setServiceUrl] = useState<string | undefined>()
     const classes = useStyles()
     const model = useUserModel()
+    useEffect(() => {
+        setServiceUrl(window.location.protocol +"//" + window.location.host.replace( window.location.port,"8999"))
+    },[])
     const onLoginClick = async () => {
         if (username && password && serviceUrl) {
             localStorage.setItem("apiUrl",serviceUrl)

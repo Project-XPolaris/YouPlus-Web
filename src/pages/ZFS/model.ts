@@ -1,6 +1,7 @@
 import {createModel} from "hox";
 import {useEffect, useState} from "react";
 import {createZFSPool, fetchZFSPools, removeZFSPool, ZFSPool} from "../../api/zfs";
+import {showAPIResponseErrorMessage, showGlobalSnackMessage} from "../../utils/message";
 
 const ZFSModel = () => {
     const [pools,setPools] = useState<ZFSPool[]>([])
@@ -12,7 +13,12 @@ const ZFSModel = () => {
         refresh()
     },[])
     const removePool = async (name:string) => {
-        await removeZFSPool(name)
+        const response = await removeZFSPool(name)
+        if (response.success) {
+            showGlobalSnackMessage("remove zfs pool success",{variant:"success"})
+        }else{
+            showAPIResponseErrorMessage(response)
+        }
         await refresh()
     }
     const createPool = async (data:any) => {

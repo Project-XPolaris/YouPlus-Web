@@ -1,6 +1,7 @@
 import apiRequest from "../utils/request";
 import {ApplicationConfig} from "../config";
 import {UserListResponse} from "./users";
+import {BaseResponse} from "./base";
 export interface  ShareFolder {
     id:number
     name:string
@@ -26,13 +27,13 @@ export const getShareList = async ():Promise<FetchShareFoldersResponse> => {
     return await apiRequest.get(ApplicationConfig.apiPaths.share)
 }
 
-export const createNewShare = async (data:any):Promise<void> => {
+export const createNewShare = async (data:any):Promise<BaseResponse> => {
     return await apiRequest.post(ApplicationConfig.apiPaths.share,{
         data
     })
 }
 
-export const removeShare = async (id : number):Promise<void> => {
+export const removeShare = async (id : number):Promise<BaseResponse> => {
     return await apiRequest.delete(ApplicationConfig.apiPaths.share,{
         params:{
             id
