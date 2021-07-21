@@ -51,7 +51,7 @@ const UserSelectField = ({onChange,users = [],initValue = []}: UserSelectFieldPr
                     size={"small"}
                     fullWidth
                     value={userSelect}
-                    onChange={(e) => setUserSelect(e.target.value)}
+                    onChange={(e) => usersController.push(e.target.value)}
                 >
                     {
                         users.filter(it => usersController.list.find(selected => selected === it) === undefined).map(user => {
@@ -61,18 +61,6 @@ const UserSelectField = ({onChange,users = [],initValue = []}: UserSelectFieldPr
                         })
                     }
                 </Select>
-                <IconButton
-                    className={classes.addButton}
-                    size={"small"}
-                    onClick={() => {
-                        if (userSelect && usersController.list.find(it => it ===  userSelect) === undefined){
-                            usersController.push(userSelect)
-                            setUserSelect(undefined)
-                        }
-                    }}
-                >
-                    <Add />
-                </IconButton>
             </div>
         </div>
     )

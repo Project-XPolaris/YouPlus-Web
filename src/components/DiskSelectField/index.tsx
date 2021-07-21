@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDynamicList} from "ahooks";
-import {Chip, IconButton, MenuItem, Select, Typography} from "@material-ui/core";
+import {Chip, FormControl, IconButton, InputLabel, MenuItem, Select, Typography} from "@material-ui/core";
 import {Add, Storage} from "@material-ui/icons";
 import useStyles from "./style";
 import {Disk} from "../../api/disks";
@@ -19,7 +19,6 @@ const DiskSelectField = ({onChange,disks = [],initValue = []}: DiskSelectFieldPr
         return disks.filter(it => disksController.list.find(selected => selected.name === it.name) === undefined)
     }
     const classes = useStyles()
-    const [diskSelect,setDiskSelect] = useState<string | undefined>(getSelectOption().length > 0?getSelectOption()[0].name:undefined)
     useEffect(() => {
         if (onChange) {
             onChange(disksController.list)
@@ -49,14 +48,21 @@ const DiskSelectField = ({onChange,disks = [],initValue = []}: DiskSelectFieldPr
                     })
                 }
             </div>
-            <div className={classes.addAction}>
-
+            <div>
                 <Select
-                    variant={"outlined"}
-                    value={diskSelect}
-                    size={"small"}
-                    onChange={(e) => setDiskSelect(e.target.value)}
-                    displayEmpty={true}
+                    className={classes.select}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    onChange={(e) => {
+                        if (disksController.list.find(it => it.name ===  e.target.value) === undefined){
+                            const target = disks.find(it => it.name ===  e.target.value)
+                            if (target) {
+                                disksController.push(target)
+                            }
+                        }
+                    }}
+
                 >
                     {
                         getSelectOption().map(disk => {
@@ -66,20 +72,6 @@ const DiskSelectField = ({onChange,disks = [],initValue = []}: DiskSelectFieldPr
                         })
                     }
                 </Select>
-                <IconButton
-                    className={classes.addButton}
-                    size={"small"}
-                    onClick={() => {
-                        if (diskSelect && disksController.list.find(it => it.name ===  diskSelect) === undefined){
-                            const target = disks.find(it => it.name ===  diskSelect)
-                            if (target) {
-                                disksController.push(target)
-                            }
-                        }
-                    }}
-                >
-                    <Add />
-                </IconButton>
             </div>
         </div>
     )

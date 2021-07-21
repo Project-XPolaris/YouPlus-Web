@@ -21,6 +21,7 @@ const UserModel = () => {
     const logout = () => {
         localStorage.removeItem("token")
         localStorage.removeItem("username")
+        localStorage.removeItem("apiUrl")
     }
     return {
         login,logout

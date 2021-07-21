@@ -6,7 +6,10 @@ const StorageModel = () => {
     const [storages, setStorages] = useState<Storage[]>([])
     const init = async () => {
         const response = await fetchStorageList()
-        setStorages(response.storages)
+        if (response) {
+            setStorages(response.storages)
+
+        }
     }
     const remove = async (id: string) => {
         await removeStorage(id)

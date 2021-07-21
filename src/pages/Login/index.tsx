@@ -27,7 +27,7 @@ const LoginPage = ({}: LoginPagePropsType) => {
             const result = await model.login(username, password)
             if (result.success) {
                 enqueueSnackbar("Login success", {variant: 'success'})
-                history.replace("/")
+                history.replace("/home")
             } else {
                 enqueueSnackbar(`Login failed:${result.message}`, {variant: 'error'})
             }

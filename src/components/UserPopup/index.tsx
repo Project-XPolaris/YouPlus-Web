@@ -4,9 +4,10 @@ import {Person} from "@material-ui/icons";
 
 export interface UserPopupPropsType  {
     username: string
+    onLogout: () => void
 }
 
-const UserPopup = ({username,...other}: UserPopupPropsType & PopoverProps) => {
+const UserPopup = ({onLogout,username,...other}: UserPopupPropsType & PopoverProps) => {
     const classes = useStyles()
     return (
         <Popover {...other}>
@@ -18,7 +19,7 @@ const UserPopup = ({username,...other}: UserPopupPropsType & PopoverProps) => {
                     {username}
                 </Typography>
                 <Divider/>
-                <Button variant={"outlined"}>
+                <Button variant={"outlined"} onClick={onLogout}>
                     Sign out
                 </Button>
             </Card>

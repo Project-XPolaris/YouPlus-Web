@@ -19,5 +19,7 @@ export const ApplicationConfig = {
     accountPassword: '/account/password',
     systemInfo: '/system/info',
     tasks: '/tasks',
+    shutdown:"/os/shutdown",
+    reboot:"/os/reboot",
   }
 }

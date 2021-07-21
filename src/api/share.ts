@@ -8,17 +8,17 @@ export interface  ShareFolder {
     storage:{
         id:string
     },
-    validateUsers:{
+    readUsers:{
         uid:string
         name:string
     }[],
-    writeableUsers:{
+    writeUsers:{
         uid:string
         name:string
     }[],
-    public:string,
-    readonly:string
-    writable:string
+    public:boolean,
+    readonly:boolean
+    enable:boolean
 }
 export interface FetchShareFoldersResponse {
     folders:ShareFolder[]
@@ -41,11 +41,11 @@ export const removeShare = async (id : number):Promise<BaseResponse> => {
     })
 }
 export interface ShareUpdateOption {
-    validUsers?:string[]
-    writeList?:string[]
-    public?:string
-    readonly?:string
-    writable?:string
+    readUsers?:string[]
+    writeUsers?:string[]
+    public?:boolean
+    readonly?:boolean
+    enable?:boolean
 }
 export const updateShare = async (name:string,option:ShareUpdateOption):Promise<void> => {
     return await apiRequest.post(ApplicationConfig.apiPaths.shareUpdate,{

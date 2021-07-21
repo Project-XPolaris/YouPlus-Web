@@ -7,11 +7,10 @@ const ZFSModel = () => {
     const [pools,setPools] = useState<ZFSPool[]>([])
     const refresh = async() => {
         const response = await fetchZFSPools()
-        setPools(response.pools)
+        if (response) {
+            setPools(response.pools)
+        }
     }
-    useEffect(() => {
-        refresh()
-    },[])
     const removePool = async (name:string) => {
         const response = await removeZFSPool(name)
         if (response.success) {

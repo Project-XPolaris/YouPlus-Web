@@ -6,7 +6,10 @@ const TaskModel = () => {
     const [tasks,setTasks] = useState<Task[]>([])
     const refresh = async () => {
         const resp = await fetchTaskList()
-        setTasks(resp.tasks)
+        if (resp) {
+            setTasks(resp.tasks)
+
+        }
     }
     return {
         tasks,refresh

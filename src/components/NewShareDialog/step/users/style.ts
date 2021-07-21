@@ -11,9 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(2)
         },
         fieldArea: {
-            backgroundColor: '#EEEEEE',
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(2),
+
         },
         chip: {
             margin: theme.spacing(1)
@@ -25,6 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         addButton: {
             marginLeft: theme.spacing(2)
+        },
+        divider:{
+            marginTop:theme.spacing(2),
+            marginBottom: theme.spacing(2)
         }
     }),
 );

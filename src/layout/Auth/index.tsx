@@ -16,7 +16,7 @@ const AuthLayout = ({children}: AuthLayoutPropsType) => {
         }
     },[])
     if (!tokenStr) {
-        history.replace("/login")
+        history.replace("/")
         return null;
     }
 

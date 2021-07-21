@@ -19,6 +19,7 @@ import GroupDetailPage from "../../pages/GroupDetail";
 import PoolDetailPage from "../../pages/PoolDetail";
 import {OptionsObject, SnackbarMessage, useSnackbar} from "notistack";
 import {useEffect} from "react";
+import SystemPage from "../../pages/System";
 
 export interface BlankLayoutPropsType {
 
@@ -66,10 +67,6 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
             </Dialog>
             <Router>
                 <Switch>
-                    <Route path="/login">
-                        <LoginPage/>
-                    </Route>
-
                     <Route path="/zfs">
                         <BaseLayout>
                             <ZFSPage/>
@@ -130,10 +127,18 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                             <GroupDetailPage />
                         </BaseLayout>
                     </Route>
-                    <Route path="/">
+                    <Route path="/home">
                         <BaseLayout>
                             <DashboardPage/>
                         </BaseLayout>
+                    </Route>
+                    <Route path="/system">
+                        <BaseLayout>
+                            <SystemPage/>
+                        </BaseLayout>
+                    </Route>
+                    <Route path="/">
+                        <LoginPage/>
                     </Route>
                 </Switch>
             </Router>

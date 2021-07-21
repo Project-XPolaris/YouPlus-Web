@@ -1,8 +1,9 @@
 import React, {useEffect} from "react";
 import useDisksModel from "./model";
-import {Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
+import {Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
 import {Storage, Store} from "@material-ui/icons";
 import useStyles from "./style";
+import DiskCard from "../../components/DiskCard";
 
 export interface DisksPagePropsType {
 
@@ -15,26 +16,38 @@ const DisksPage = ({}: DisksPagePropsType) => {
         model.initData()
     },[])
     return (
-        <div>
+        <div className={classes.root}>
             <Typography variant={"h4"} className={classes.title}>
                 Disks
             </Typography>
-            <List>
+            <Grid container className={classes.grid}>
                 {
                     model.disks.map(it => {
                         return (
-                            <ListItem key={it.name} button>
-                                <ListItemAvatar>
-                                    <Avatar className={classes.avatar}>
-                                        <Storage />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary={it.name} secondary={it.model}/>
-                            </ListItem>
+                            <Grid item xl={2} lg={3} md={3} sm={6} xs={12} className={classes.item}>
+                                <DiskCard disk={it} />
+                            </Grid>
                         )
                     })
                 }
-            </List>
+            </Grid>
+
+            {/*<List>*/}
+            {/*    {*/}
+            {/*        model.disks.map(it => {*/}
+            {/*            return (*/}
+            {/*                <ListItem key={it.name} button>*/}
+            {/*                    <ListItemAvatar>*/}
+            {/*                        <Avatar className={classes.avatar}>*/}
+            {/*                            <Storage />*/}
+            {/*                        </Avatar>*/}
+            {/*                    </ListItemAvatar>*/}
+            {/*                    <ListItemText primary={it.name} secondary={it.model}/>*/}
+            {/*                </ListItem>*/}
+            {/*            )*/}
+            {/*        })*/}
+            {/*    }*/}
+            {/*</List>*/}
         </div>
     )
 }

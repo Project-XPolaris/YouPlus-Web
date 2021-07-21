@@ -23,20 +23,21 @@ const DashboardPage = ({}: DashboardPagePropsType): ReactElement => {
     },4000)
     useEffect(() => {
         model.initData()
+        model.refreshSystemInfo()
     },[])
     return (
         <div className={classes.root}>
             <Grid container spacing={2}>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
                     <ImageInfoCard icon={<DiskIcon width={64} height={64}/>} text={`${model.diskCount} Disks`}/>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
                     <ImageInfoCard icon={<StorageIcon width={64} height={64}/>} text={`${model.storageCount} Storage`}/>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
                     <ImageInfoCard icon={<ShareFolderIcon width={64} height={64}/>} text={`${model.shareFolderCount} Share folders`}/>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
                     <ImageInfoCard icon={<UserIcon width={64} height={64}/>} text={`${model.userCount} Users`}/>
                 </Grid>
             </Grid>

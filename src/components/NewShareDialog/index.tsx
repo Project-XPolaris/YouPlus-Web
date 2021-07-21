@@ -20,18 +20,17 @@ import {useForm} from "./hook";
 import {Storage} from "../../api/storage";
 
 export interface NewShareDialogPropsType {
-    onCreateShare:(data:any) => void
+    onCreateShare: (data: any) => void
 }
+
 const steps = [
-    "info","storage","users","complete"
+    "info", "storage", "users", "complete"
 ]
-const NewShareDialog = ({onCreateShare ,...other}: NewShareDialogPropsType & DialogProps) => {
+const NewShareDialog = ({onCreateShare, ...other}: NewShareDialogPropsType & DialogProps) => {
     const [index, setIndex] = useState<number>(0)
-    const [selectStorage,setSelectStorage] = useState<Storage | undefined>()
+    const [selectStorage, setSelectStorage] = useState<Storage | undefined>()
     const usersFormController = useForm<UsersForm>({
-        useValidateUsers:false,
-        useWriteUsers:false,
-        folderPublic:true
+        folderPublic: true
     })
     const infoForm = useForm<InfoForm>({})
     const classes = useStyles()
@@ -40,7 +39,7 @@ const NewShareDialog = ({onCreateShare ,...other}: NewShareDialogPropsType & Dia
             case 0:
                 return <ShareInfoStep controller={infoForm}/>
             case 1:
-                return <StorageStep selectedStorage={selectStorage} onSelect={(part) => setSelectStorage(part)} />
+                return <StorageStep selectedStorage={selectStorage} onSelect={(part) => setSelectStorage(part)}/>
             case 2:
                 return <UsersStep controller={usersFormController}/>
             case 3:
@@ -49,12 +48,10 @@ const NewShareDialog = ({onCreateShare ,...other}: NewShareDialogPropsType & Dia
                     access={usersFormController.form.folderPublic ? "Allow guest" : "Not allow guest"}
                     storage={selectStorage?.id}
                     validateUsers={
-                        usersFormController.form.useValidateUsers && usersFormController.form.validateUsers ?
-                        usersFormController.form.validateUsers?.join(",") : "disable"
+                        (usersFormController.form.readUsers ?? []).join(",")
                     }
                     writeUsers={
-                        usersFormController.form.useWriteUsers && usersFormController.form.writeUsers ?
-                        usersFormController.form.writeUsers?.join(",") : 'disable'
+                        (usersFormController.form.writeUsers ?? []).join(",")
                     }
                 />
             default:
@@ -65,32 +62,32 @@ const NewShareDialog = ({onCreateShare ,...other}: NewShareDialogPropsType & Dia
         if (
             infoForm.form.name === undefined ||
             selectStorage == undefined
-        ){
+        ) {
             return false
         }
         return true
     }
     const onCreate = () => {
-        if (!validate()){
+        if (!validate()) {
             return
         }
         const data = {
-            name:infoForm.form.name,
-            public:usersFormController.form.folderPublic,
-            valid_users:usersFormController.form.validateUsers,
-            write_list:usersFormController.form.writeUsers,
-            storageId:selectStorage?.id
+            name: infoForm.form.name,
+            public: usersFormController.form.folderPublic,
+            readUsers: usersFormController.form.readUsers ?? [],
+            writeUsers: usersFormController.form.writeUsers ?? [],
+            storageId: selectStorage?.id
         }
         onCreateShare(data)
 
     }
     return (
-        <Dialog {...other}>
+        <Dialog {...other} maxWidth={"xl"}>
             <DialogTitle>
                 New Share
                 <Stepper activeStep={index} className={classes.stepper}>
                     {
-                        steps.map((label,index) => {
+                        steps.map((label, index) => {
                             return (
                                 <Step key={index}>
                                     <StepLabel>{label}</StepLabel>

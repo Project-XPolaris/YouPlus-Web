@@ -14,7 +14,7 @@ export type DialogKey =
     | "installApp"
 const LayoutModel = () => {
     const [dialogs, setDialogs] = useState<{ [key: string]: boolean }>({})
-
+    const [showNav,setShowNav] = useState(false)
     const getDialogOpen = (dialogKey: DialogKey) => {
         return Boolean(dialogs[dialogKey])
     }
@@ -33,7 +33,8 @@ const LayoutModel = () => {
         getDialogSwitchHandler,
         getDialogOpen,
         showConfirmDialog: confirmDialogController.openDialog,
-        confirmDialogController: confirmDialogController
+        confirmDialogController: confirmDialogController,
+        showNav,setShowNav
     }
 }
 const useLayoutModel = createModel(LayoutModel)

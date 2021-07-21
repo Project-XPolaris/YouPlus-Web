@@ -2,50 +2,50 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding:theme.spacing(2)
+        padding: theme.spacing(2)
     },
-    header:{
+    header: {
         display: 'flex'
     },
-    title:{
+    title: {
         ...theme.typography.h4,
         flexGrow: 1
     },
-    infoCard:{
-height: theme.spacing(10),
-        marginTop: theme.spacing(4)
+    infoCard: {
+        height: theme.spacing(10),
     },
-    userListItem:{
+    userListItem: {
         padding: 0
     },
-    userListHeader:{
+    userListHeader: {
         display: 'flex',
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
         paddingTop: theme.spacing(1),
         alignItems: 'center'
     },
-    userList:{
-        height:theme.spacing(40),
+    userList: {
+        height: theme.spacing(40),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(2),
     },
-    usersListTitle:{
+    usersListTitle: {
         ...theme.typography.caption,
         fontSize: 14,
         fontWeight: 500,
         color: '#808080',
-       flexGrow:1
+        flexGrow: 1
     },
-    userListIcon:{
-      backgroundColor: theme.palette.primary.dark
+    userListIcon: {
+        backgroundColor: theme.palette.primary.dark
     },
-    grid:{
-        marginBottom: theme.spacing(2)
+    grid: {
+        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(2)
     },
-    removeButton:{
+    removeButton: {
         backgroundColor: "red"
     }
 }))

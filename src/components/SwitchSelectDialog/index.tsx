@@ -4,7 +4,7 @@ import useStyles from "./style";
 
 export interface SwitchSelectDialogPropsType {
     open?:boolean
-    onOk:(value:boolean | undefined) => void
+    onOk:(value:boolean) => void
     onClose:() => void
 }
 
@@ -16,9 +16,6 @@ const SwitchSelectDialog = ({onClose,onOk,open=false}: SwitchSelectDialogPropsTy
                Select
             </DialogTitle>
             <List>
-                <ListItem button  onClick={() => onOk(undefined)} className={classes.item} >
-                    <ListItemText primary={"Not set"}/>
-                </ListItem>
                 <ListItem button onClick={() => onOk(true)} className={classes.item} >
                     <ListItemText primary={"Yes"} />
                 </ListItem>

@@ -8,6 +8,7 @@ import useStyles from "./style";
 import InstallAppDialog from "../../components/InstallAppDialog";
 import useLayoutModel from "../../model/layout";
 import {Add} from "@material-ui/icons";
+import {useInterval} from "ahooks";
 
 
 interface AppsPagePropsType {
@@ -19,6 +20,9 @@ export default function AppsPage({}: AppsPagePropsType) {
     const classes = useStyles();
     const model = useAppsPageModel()
     const layoutModel = useLayoutModel()
+    useInterval(() => {
+        model.loadApp();
+    },1000)
     return (
         <div className={classes.root}>
             <InstallAppDialog
@@ -47,7 +51,7 @@ export default function AppsPage({}: AppsPagePropsType) {
 
             <Grid container spacing={2}>
                 {model.appList.map((app: App) => (
-                    <Grid xs={2} item>
+                    <Grid xs={12} sm={6} md={4} lg={3} xl={2} item>
                         <AppCard
                             app={app}
                             onStart={() => model.start(app.id)}

@@ -6,22 +6,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
-import {
-    Apps,
-    Archive,
-    Assignment,
-    Dashboard,
-    Dns,
-    Folder, Group,
-    Inbox,
-    Person,
-    Storage,
-    Store,
-    SwapCalls
-} from "@material-ui/icons";
+import {Apps, Archive, Assignment, Dashboard, Dns, Folder, Group, Person, Settings, Storage} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {useUpdate} from "ahooks";
-import {ListSubheader} from "@material-ui/core";
+import {ListSubheader, useMediaQuery} from "@material-ui/core";
+import theme from "../../../../theme";
+import useLayoutModel from "../../../../model/layout";
 
 const drawerWidth = 240;
 const useStyles = makeStyles({
@@ -47,20 +37,24 @@ export default function AppNavigation({}: AppNavigationPropsType) {
     const classes = useStyles();
     const history = useHistory();
     const update = useUpdate();
+    const layoutModel = useLayoutModel()
+    const collapse = useMediaQuery(theme.breakpoints.down('md'));
     const changeUrl = (urlPath: string) => {
+        layoutModel.setShowNav(false)
         if (history.location.pathname !== urlPath) {
             history.replace(urlPath)
             update()
         }
     }
-    console.log(history.location.pathname)
     return (
         <Drawer
             className={classes.drawer}
-            variant="permanent"
+            variant={collapse?'temporary' :"permanent"}
             classes={{
                 paper: classes.drawerPaper,
             }}
+            open={layoutModel.showNav}
+            onClose={() => layoutModel.setShowNav(false)}
         >
             <Toolbar/>
             <div className={classes.drawerContainer}>
@@ -74,8 +68,8 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                     <ListItem
                         button
                         key={"dashboard"}
-                        selected={history.location.pathname === "/"}
-                        onClick={() => changeUrl("/")}
+                        selected={history.location.pathname === "/home"}
+                        onClick={() => changeUrl("/home")}
                     >
                         <ListItemIcon>
                             <Dashboard/>
@@ -205,6 +199,26 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                             <Assignment/>
                         </ListItemIcon>
                         <ListItemText primary={"Account"}/>
+                    </ListItem>
+                </List>
+
+                <List
+                    subheader={
+                        <ListSubheader component="div">
+                            System
+                        </ListSubheader>
+                    }
+                >
+                    <ListItem
+                        button
+                        key={"system"}
+                        selected={history.location.pathname === "/system"}
+                        onClick={() => changeUrl("/system")}
+                    >
+                        <ListItemIcon>
+                            <Settings />
+                        </ListItemIcon>
+                        <ListItemText primary={"System"}/>
                     </ListItem>
                 </List>
 

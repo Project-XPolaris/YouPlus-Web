@@ -6,7 +6,10 @@ const DisksModel = () => {
     const [disks,setDisks] = useState<Disk[]>([])
     const initData = async () => {
         const response = await fetchDisks()
-        setDisks(response.disks)
+        if (response) {
+            setDisks(response.disks.sort((a, b) => a.name.localeCompare(b.name)))
+
+        }
     }
 
     return {

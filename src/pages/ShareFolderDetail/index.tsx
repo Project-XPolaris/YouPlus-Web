@@ -7,7 +7,6 @@ import {Button, Grid} from "@material-ui/core";
 import UserListCard from "../../components/UserListCard";
 import UserSelectDialog from "../../components/UserSelectDialog";
 import SwitchSelectDialog from "../../components/SwitchSelectDialog";
-import {getSwitchText} from "../../utils/values";
 import {Delete} from "@material-ui/icons";
 import useLayoutModel from "../../model/layout";
 
@@ -15,8 +14,8 @@ export interface ShareFolderDetailPropsType {
 
 }
 
-type UserPickModeType = "valid user" | "write list"
-type SwitchSelectTargetType = "public" | 'readonly'  | "writable"
+type UserPickModeType = "readUsers" | "writeUsers"
+type SwitchSelectTargetType = "public" | 'readonly' | "writable" | 'enable'
 const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
     const {name}: any = useParams();
     const classes = useStyles()
@@ -33,34 +32,44 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
         if (!model.folder) {
             return
         }
-        if (pickUpUserMode == "valid user") {
+        const option = {
+            public: model.folder.public,
+            enable: model.folder.enable,
+            readonly: model.folder.readonly
+        }
+        if (pickUpUserMode == "readUsers") {
             model.update({
-                validUsers: [...(model.folder?.validateUsers ?? []).map(it => it.name), user]
+                ...option,
+                readUsers: [...(model.folder?.readUsers ?? []).map(it => it.name), user]
             })
-        } else if (pickUpUserMode == 'write list') {
+        } else if (pickUpUserMode == 'writeUsers') {
             model.update({
-                writeList: [...(model.folder?.writeableUsers ?? []).map(it => it.name), user]
+                ...option,
+                writeUsers: [...(model.folder?.writeUsers ?? []).map(it => it.name), user]
             })
         }
         setPickUpUserMode(undefined)
     }
-    const onSwitchSelect = (value: boolean | undefined) => {
+    const onSwitchSelect = (value: boolean) => {
+        if (!model.folder) {
+            return
+        }
+        const option = {
+            public: model.folder.public,
+            enable: model.folder.enable,
+            readonly: model.folder.readonly
+        }
         switch (switchSelectTarget) {
             case "public":
-                model.update({
-                    public: getSwitchText(value)
-                })
+                option.public = value
                 break;
             case 'readonly':
-                model.update({
-                    readonly: getSwitchText(value)
-                })
+                option.readonly = value
                 break;
-            case 'writable':
-                model.update({
-                    writable: getSwitchText(value)
-                })
+            case 'enable':
+                option.enable = value
         }
+        model.update(option)
         setSwitchSelectTarget(undefined)
 
     }
@@ -77,6 +86,7 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                 onClose={() => setSwitchSelectTarget(undefined)}
                 open={Boolean(switchSelectTarget)}
             />
+
             <div className={classes.header}>
                 <div className={classes.title}>
                     {model.folder?.name}
@@ -84,12 +94,12 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                 <Button
                     variant={'contained'}
                     size={"small"}
-                    startIcon={<Delete />}
+                    startIcon={<Delete/>}
                     onClick={() => {
                         layoutModel.showConfirmDialog({
                             title: 'Remove Confirm',
                             message: 'Remove folder will lost ALL DATA in folder',
-                            onOk:async () => {
+                            onOk: async () => {
                                 await model.remove()
                                 history.goBack()
                             }
@@ -101,39 +111,39 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
             </div>
 
             <Grid container spacing={4} className={classes.grid}>
-                <Grid xs={2} item>
+                <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
                     <InfoCard label={"folder name"} value={model.folder?.name} valueSize={18}
                               className={classes.infoCard}/>
                 </Grid>
-                <Grid xs={2} item>
+                <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
                     <InfoCard label={"storage"} value={model.folder?.storage.id} valueSize={18}
                               className={classes.infoCard}/>
                 </Grid>
-                <Grid xs={2} item>
+                <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
                     <InfoCard
                         label={"public"}
-                        value={model.folder?.public}
+                        value={model.folder?.public ? "yes" : "no"}
                         valueSize={18}
                         className={classes.infoCard}
                         onEdit={() => setSwitchSelectTarget("public")}
                     />
                 </Grid>
-                <Grid xs={2} item>
+                <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
                     <InfoCard
                         label={"readonly"}
-                        value={model.folder?.readonly}
+                        value={model.folder?.readonly ? "yes" : "no"}
                         valueSize={18}
                         className={classes.infoCard}
                         onEdit={() => setSwitchSelectTarget("readonly")}
                     />
                 </Grid>
-                <Grid xs={2} item>
+                <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
                     <InfoCard
-                        label={"writable"}
-                        value={model.folder?.writable}
+                        label={"enable"}
+                        value={model.folder?.enable ? "yes" : "no"}
                         valueSize={18}
                         className={classes.infoCard}
-                        onEdit={() => setSwitchSelectTarget("writable")}
+                        onEdit={() => setSwitchSelectTarget("enable")}
                     />
                 </Grid>
             </Grid>
@@ -141,39 +151,51 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                 <Grid xs={12} sm={6} xl={4} item>
 
                     <UserListCard
-                        users={model.folder?.validateUsers}
-                        title={"valid user"}
+                        users={model.folder?.readUsers}
+                        title={"read users"}
                         actions={
                             <>
                                 <Button onClick={() => {
-                                    setPickUserExcept((model.folder?.validateUsers ?? []).map(it => it.name))
-                                    setPickUpUserMode("valid user")
+                                    setPickUserExcept((model.folder?.readUsers ?? []).map(it => it.name))
+                                    setPickUpUserMode("readUsers")
                                 }}>
                                     add user
                                 </Button>
                             </>
                         }
                         onRemove={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
                             model.update({
-                                validUsers: model.folder?.validateUsers.map(it => it.name).filter(it => it !== name)
+                                public: model.folder.public,
+                                enable: model.folder.enable,
+                                readonly: model.folder.readonly,
+                                readUsers: model.folder?.readUsers.map(it => it.name).filter(it => it !== name)
                             })
                         }}
                     />
                 </Grid>
                 <Grid xs={12} sm={6} xl={4} item>
                     <UserListCard
-                        users={model.folder?.writeableUsers}
+                        users={model.folder?.writeUsers}
                         title={"write list"}
                         onRemove={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
                             model.update({
-                                writeList: model.folder?.writeableUsers.map(it => it.name).filter(it => it !== name)
+                                public: model.folder.public,
+                                enable: model.folder.enable,
+                                readonly: model.folder.readonly,
+                                writeUsers: model.folder?.writeUsers.map(it => it.name).filter(it => it !== name)
                             })
                         }}
                         actions={
                             <>
                                 <Button onClick={() => {
-                                    setPickUserExcept((model.folder?.writeableUsers ?? []).map(it => it.name))
-                                    setPickUpUserMode("write list")
+                                    setPickUserExcept((model.folder?.writeUsers ?? []).map(it => it.name))
+                                    setPickUpUserMode("writeUsers")
                                 }}>
                                     add user
                                 </Button>

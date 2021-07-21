@@ -7,16 +7,24 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         content:{
             width: theme.spacing(100),
+            [theme.breakpoints.down('md')]: {
+                width: "80vw",
+            },
             height: theme.spacing(60)
         },
         field:{
             marginTop: theme.spacing(2)
         },
         fieldArea: {
-            backgroundColor: '#EEEEEE',
-            padding: theme.spacing(2),
-            borderRadius: theme.spacing(2),
+
         },
+        label:{
+            fontSize:18
+        },
+        divider:{
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2)
+        }
     }),
 );
 export default useStyles

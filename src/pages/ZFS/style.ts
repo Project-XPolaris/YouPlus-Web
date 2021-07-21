@@ -7,7 +7,10 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(2)
         },
         deleteDialogContent:{
-            width:theme.spacing(50)
+            width:theme.spacing(50),
+            [theme.breakpoints.down('md')]: {
+                width:"70vw",
+            },
         },
         avatar:{
             backgroundColor: theme.palette.primary.dark

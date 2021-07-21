@@ -7,8 +7,10 @@ const UsersModel = () => {
     const [users, setUsers] = useState<string[]>([])
     const initData = async () => {
         const response = await getUserList()
-        console.log(response)
-        setUsers(response.users)
+        if (response) {
+            setUsers(response.users)
+
+        }
     }
 
     const newUser = async (username:string,password:string) => {
