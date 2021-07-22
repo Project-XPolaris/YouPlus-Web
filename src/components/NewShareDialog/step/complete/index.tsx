@@ -24,12 +24,6 @@ const CompleteStep = ({ name,access,storage,validateUsers = "disable",writeUsers
             <Grid xs={6} item className={classes.field}>
                 <ValueField label="storage" value={storage} valueFontSize={20} />
             </Grid>
-            <Grid xs={12} item className={classes.field}>
-                <ValueField label="validate users" value={validateUsers} valueFontSize={20} />
-            </Grid>
-            <Grid xs={12} item className={classes.field}>
-                <ValueField label="write users" value={writeUsers} valueFontSize={20} />
-            </Grid>
         </Grid>
     )
 }

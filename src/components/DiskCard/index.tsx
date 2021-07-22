@@ -20,7 +20,7 @@ const DiskCard = ({className,disk}: DiskCardPropsType): ReactElement => {
                     <div>
                         { disk.name }
                     </div>
-                    <div>
+                    <div className={classes.model}>
                         { disk.model }
                     </div>
                 </div>

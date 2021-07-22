@@ -20,6 +20,7 @@ import PoolDetailPage from "../../pages/PoolDetail";
 import {OptionsObject, SnackbarMessage, useSnackbar} from "notistack";
 import {useEffect} from "react";
 import SystemPage from "../../pages/System";
+import UserDetail from "../../pages/UserDetail";
 
 export interface BlankLayoutPropsType {
 
@@ -95,6 +96,11 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                     <Route path="/users">
                         <BaseLayout>
                             <UsersPage/>
+                        </BaseLayout>
+                    </Route>
+                    <Route path="/user/:name">
+                        <BaseLayout>
+                            <UserDetail />
                         </BaseLayout>
                     </Route>
                     <Route path="/folders">

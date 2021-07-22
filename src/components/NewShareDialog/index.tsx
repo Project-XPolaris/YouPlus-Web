@@ -13,8 +13,7 @@ import {
 import useStyles from "./style";
 import ShareInfoStep, {InfoForm} from "./step/info";
 import StorageStep from "./step/storage";
-import {Part} from "../../api/disks";
-import UsersStep, {UsersForm} from "./step/users";
+import {UsersForm} from "./step/users";
 import CompleteStep from "./step/complete";
 import {useForm} from "./hook";
 import {Storage} from "../../api/storage";
@@ -24,7 +23,7 @@ export interface NewShareDialogPropsType {
 }
 
 const steps = [
-    "info", "storage", "users", "complete"
+    "info", "storage", "complete"
 ]
 const NewShareDialog = ({onCreateShare, ...other}: NewShareDialogPropsType & DialogProps) => {
     const [index, setIndex] = useState<number>(0)
@@ -41,8 +40,6 @@ const NewShareDialog = ({onCreateShare, ...other}: NewShareDialogPropsType & Dia
             case 1:
                 return <StorageStep selectedStorage={selectStorage} onSelect={(part) => setSelectStorage(part)}/>
             case 2:
-                return <UsersStep controller={usersFormController}/>
-            case 3:
                 return <CompleteStep
                     name={infoForm.form.name}
                     access={usersFormController.form.folderPublic ? "Allow guest" : "Not allow guest"}
@@ -74,8 +71,6 @@ const NewShareDialog = ({onCreateShare, ...other}: NewShareDialogPropsType & Dia
         const data = {
             name: infoForm.form.name,
             public: usersFormController.form.folderPublic,
-            readUsers: usersFormController.form.readUsers ?? [],
-            writeUsers: usersFormController.form.writeUsers ?? [],
             storageId: selectStorage?.id
         }
         onCreateShare(data)

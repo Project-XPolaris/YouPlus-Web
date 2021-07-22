@@ -5,11 +5,15 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         display: 'flex',
         width: "100%",
-        textAlign:"left"
+        textAlign:"left",
+        minHeight: theme.spacing(12)
     },
     info:{
         flex:1,
         fontSize:16
+    },
+    model:{
+      overflowWrap: "anywhere"
     },
     avatar:{
         marginLeft: theme.spacing(2),

@@ -16,6 +16,7 @@ import {Add, Delete, MoreVert, Person} from "@material-ui/icons";
 import useLayoutModel from "../../model/layout";
 import NewUserDialog from "../../components/NewUserDialog";
 import {useContextMenu} from "../../hooks/ContextMenu";
+import {useHistory} from "react-router-dom";
 
 export interface UsersPagePropsType {
 
@@ -25,7 +26,11 @@ const UsersPage = ({}: UsersPagePropsType) => {
     const usersModel = useUsersModel()
     const layoutModel = useLayoutModel()
     const userContextMenu = useContextMenu<string>()
+    const history = useHistory()
     const onSwitchNewUserDialog = layoutModel.getDialogSwitchHandler("newUser")
+    const onUserClickItem = (username:string) => {
+        history.push(`/user/${username}`)
+    }
     useEffect(() => {
         usersModel.initData()
     }, [])
@@ -71,7 +76,7 @@ const UsersPage = ({}: UsersPagePropsType) => {
                 {
                     usersModel.users.map(it => {
                         return (
-                            <ListItem key={it}>
+                            <ListItem key={it} button onClick={() => onUserClickItem(it)}>
                                 <ListItemAvatar>
                                     <Avatar className={classes.avatar}>
                                         <Person />

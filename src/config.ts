@@ -21,5 +21,6 @@ export const ApplicationConfig = {
     tasks: '/tasks',
     shutdown:"/os/shutdown",
     reboot:"/os/reboot",
+    userShare:"/user/share"
   }
 }

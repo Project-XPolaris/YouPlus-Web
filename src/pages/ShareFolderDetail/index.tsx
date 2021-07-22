@@ -14,7 +14,7 @@ export interface ShareFolderDetailPropsType {
 
 }
 
-type UserPickModeType = "readUsers" | "writeUsers"
+type UserPickModeType = "readUsers" | "writeUsers" | "validUsers" | "invalidUsers"
 type SwitchSelectTargetType = "public" | 'readonly' | "writable" | 'enable'
 const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
     const {name}: any = useParams();
@@ -37,16 +37,30 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
             enable: model.folder.enable,
             readonly: model.folder.readonly
         }
-        if (pickUpUserMode == "readUsers") {
-            model.update({
-                ...option,
-                readUsers: [...(model.folder?.readUsers ?? []).map(it => it.name), user]
-            })
-        } else if (pickUpUserMode == 'writeUsers') {
-            model.update({
-                ...option,
-                writeUsers: [...(model.folder?.writeUsers ?? []).map(it => it.name), user]
-            })
+        switch (pickUpUserMode) {
+            case "readUsers":
+                model.update({
+                    ...option,
+                    readUsers: [...(model.folder?.readUsers ?? []).map(it => it.name), user]
+                })
+                break;
+            case "writeUsers":
+                model.update({
+                    ...option,
+                    writeUsers: [...(model.folder?.writeUsers ?? []).map(it => it.name), user]
+                })
+                break;
+            case "validUsers":
+                model.update({
+                    ...option,
+                    validUsers: [...(model.folder?.validUsers ?? []).map(it => it.name), user]
+                })
+                break;
+            case "invalidUsers":
+                model.update({
+                    ...option,
+                    invalidUsers: [...(model.folder?.invalidUsers ?? []).map(it => it.name), user]
+                })
         }
         setPickUpUserMode(undefined)
     }
@@ -149,7 +163,60 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
             </Grid>
             <Grid className={classes.grid} container spacing={4}>
                 <Grid xs={12} sm={6} xl={4} item>
-
+                    <UserListCard
+                        users={model.folder?.validUsers}
+                        title={"valid users"}
+                        actions={
+                            <>
+                                <Button onClick={() => {
+                                    setPickUserExcept((model.folder?.validUsers ?? []).map(it => it.name))
+                                    setPickUpUserMode("validUsers")
+                                }}>
+                                    add user
+                                </Button>
+                            </>
+                        }
+                        onRemove={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
+                            model.update({
+                                public: model.folder.public,
+                                enable: model.folder.enable,
+                                readonly: model.folder.readonly,
+                                validUsers: model.folder?.validUsers.map(it => it.name).filter(it => it !== name)
+                            })
+                        }}
+                    />
+                </Grid>
+                <Grid xs={12} sm={6} xl={4} item>
+                    <UserListCard
+                        users={model.folder?.invalidUsers}
+                        title={"invalid users"}
+                        actions={
+                            <>
+                                <Button onClick={() => {
+                                    setPickUserExcept((model.folder?.invalidUsers ?? []).map(it => it.name))
+                                    setPickUpUserMode("invalidUsers")
+                                }}>
+                                    add user
+                                </Button>
+                            </>
+                        }
+                        onRemove={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
+                            model.update({
+                                public: model.folder.public,
+                                enable: model.folder.enable,
+                                readonly: model.folder.readonly,
+                                invalidUsers: model.folder?.invalidUsers.map(it => it.name).filter(it => it !== name)
+                            })
+                        }}
+                    />
+                </Grid>
+                <Grid xs={12} sm={6} xl={4} item>
                     <UserListCard
                         users={model.folder?.readUsers}
                         title={"read users"}
