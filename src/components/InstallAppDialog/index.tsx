@@ -1,61 +1,106 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@material-ui/core";
-import {ChangeEvent, ReactElement, useState} from "react";
+import {ChangeEvent, ReactElement, useEffect, useState} from "react";
 import useStyles from "./style";
 import styled from "@emotion/styled";
+import UploadStep from "./setp/upload";
+import InstallPackInfoStep from "./setp/confirm";
+import {AppPackInfo, installApp, uploadAppPack} from "../../api/apps";
 
 export interface InstallAppDialogPropsType {
     open?: boolean
     onClose: () => void
-    onOk: (file: File) => void
+    onOk: () => void
 }
 
-const Input = styled('input')({
-    display: 'none',
-});
-const InstallAppDialog = ({onOk,onClose, open = false}: InstallAppDialogPropsType): ReactElement => {
+const InstallAppDialog = ({onOk, onClose, open = false}: InstallAppDialogPropsType): ReactElement => {
     const classes = useStyles()
-    const [filename, setFileName] = useState<string | undefined>()
-    const [file,setFile] = useState<File | undefined>()
-    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files) {
+    const [file, setFile] = useState<File | undefined>()
+    const [stepIndex, setStepIndex] = useState<number>(0)
+    const [isUpload,setIsUpload] = useState(false)
+    const [packInfo,setPackInfo] = useState<AppPackInfo | undefined>()
+    const uploadFile = async () => {
+        if (!file) {
             return
         }
-        const file = e.target.files[0]
-        setFileName(file.name)
-        setFile(file)
+        setIsUpload(true)
+        const result  = await uploadAppPack(file)
+        setIsUpload(false)
+        setPackInfo(result)
+    }
+    const onFinish = async () => {
+        if (!packInfo) {
+            return
+        }
+        await installApp(packInfo.id)
+        onOk()
+    }
+    useEffect(() => {
+        uploadFile()
+    },[file])
+    const renderContent = () => {
+        if (stepIndex == 0) {
+            return (
+                <UploadStep
+                    onFileChange={(file) => {
+                        setFile(file)
+                    }}
+                    filename={file?.name}
+                    isUpload={isUpload}
+                />
+            )
+        }
+        if (stepIndex == 1) {
+            return (
+                <InstallPackInfoStep packInfo={packInfo}/>
+            )
+        }
+    }
+    const getTitleText = () => {
+        switch (stepIndex) {
+            case 0:
+                return "Install App > Upload"
+            case 1:
+                return "Install App > Confirm"
+        }
+        return "Install App"
+    }
+    const isNextDisable = () => {
+        if (stepIndex == 2) {
+            return true
+        }
+        // if (!packInfo && stepIndex == 0) {
+        //     return true
+        // }
+        return false
     }
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={open} onClose={onClose} maxWidth={"xl"}>
             <DialogTitle>
-                Install App
+                {getTitleText()}
             </DialogTitle>
             <DialogContent className={classes.content}>
-                <div>
-                    {
-                        filename && <Typography variant={"h6"}>{filename}</Typography>
-                    }
-                </div>
-
-                <label htmlFor="contained-button-file">
-                    <Input accept=".upk" id="contained-button-file" type="file" onChange={onInputChange}/>
-
-                    <Button variant="contained" component="span">
-                        Upload
-                    </Button>
-                </label>
+                {renderContent()}
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={classes.actions}>
                 <Button
+                    disabled={stepIndex == 0}
                     onClick={() => {
-                        if (file) {
-                            onOk(file)
-                        }
+                        setStepIndex(stepIndex - 1)
                     }}
                 >
-                    Install
+                    Previous
                 </Button>
-                <Button onClick={onClose}>
-                    Cancel
+                <Button
+                    disabled={isNextDisable()}
+                    onClick={() => {
+                        if (stepIndex == 1) {
+                            onFinish()
+                            return
+                        }
+                        setStepIndex(stepIndex + 1)
+                    }}
+                >
+                    {stepIndex == 1 ? "Install" : "Next" }
                 </Button>
             </DialogActions>
         </Dialog>

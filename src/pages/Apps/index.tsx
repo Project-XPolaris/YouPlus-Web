@@ -22,7 +22,7 @@ export default function AppsPage({}: AppsPagePropsType) {
     const layoutModel = useLayoutModel()
     useInterval(() => {
         model.loadApp();
-    },1000)
+    },3000)
     return (
         <div className={classes.root}>
             <InstallAppDialog
@@ -30,8 +30,7 @@ export default function AppsPage({}: AppsPagePropsType) {
                 onClose={() => {
                     layoutModel.switchDialog("installApp")
                 }}
-                onOk={async (file) => {
-                    await model.install(file)
+                onOk={() => {
                     layoutModel.switchDialog("installApp")
                 }}
             />

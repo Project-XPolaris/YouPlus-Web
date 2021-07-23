@@ -36,11 +36,8 @@ const AppsPageModel = () => {
     const uninstall = async (id:string) => {
         await unInstallAPP(id)
     }
-    const install = async (file:File) => {
-        await installApp(file)
-    }
     return {
-        appList,loadApp,start,stop,addToAutoStart,removeAutoStart,uninstall,install
+        appList,loadApp,start,stop,addToAutoStart,removeAutoStart,uninstall
     }
 }
 const useAppsPageModel = createModel(AppsPageModel)

@@ -17,7 +17,7 @@ const errorHandler = (error:ResponseError) => {
   // return {some: 'data'};
 };
 const apiRequest = extend({
-  timeout: 2000,
+  timeout: 10000,
   credentials: 'omit',
   errorHandler
 })
