@@ -1,6 +1,21 @@
 import apiRequest from "../utils/request";
 import {ApplicationConfig} from "../config";
 
+export interface DiskAttr {
+    id: number;
+    name: string;
+    worst: number;
+    threshold: number;
+    value: number;
+}
+
+export interface DiskInfo {
+    modelFamily: string;
+    modelName: string;
+    serialNumber: string;
+    status: boolean;
+    attrs: DiskAttr[];
+}
 export interface FetchDisksResponse {
     disks: Disk[]
 }
@@ -34,4 +49,11 @@ export const fetchParts = async (): Promise<Part[]> => {
         }
     })
     return result
+}
+export const fetchDiskInfo = async (name:string):Promise<DiskInfo> => {
+    return await apiRequest.get(ApplicationConfig.apiPaths.diskInfo,{
+        params:{
+            name
+        }
+    })
 }

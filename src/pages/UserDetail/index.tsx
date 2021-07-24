@@ -1,8 +1,6 @@
 import useStyles from './style'
-import clsx from 'clsx'
 import {
     Divider,
-    Grid,
     Paper,
     Table,
     TableBody,
@@ -12,11 +10,8 @@ import {
     TableRow,
     Typography
 } from "@material-ui/core";
-import InfoCard from "../../components/InfoCard";
-import filesize from "filesize";
 import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
-import useUserDetailModelModel from "./model";
 import useUserDetailModel from "./model";
 
 export interface UserDetailPropsType {

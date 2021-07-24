@@ -12,6 +12,7 @@ export const ApplicationConfig = {
     group:"/group/:name",
     groupUsers:"/group/:name/users",
     disks:"/disks",
+    diskInfo:"/disk/smart",
     share:"/share",
     shareUpdate:"/share/update",
     zfs:"/zpool",

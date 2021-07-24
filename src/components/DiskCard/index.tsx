@@ -8,14 +8,15 @@ import {Disk} from "../../api/disks";
 export interface DiskCardPropsType {
     className?:string
     disk:Disk
+    onClick:() => void
 }
 
-const DiskCard = ({className,disk}: DiskCardPropsType): ReactElement => {
+const DiskCard = ({className,disk,onClick}: DiskCardPropsType): ReactElement => {
     const classes = useStyles()
     return (
 
         <Paper className={clsx(className,)}>
-            <ButtonBase className={classes.root}>
+            <ButtonBase className={classes.root} onClick={onClick}>
                 <div className={classes.info}>
                     <div>
                         { disk.name }

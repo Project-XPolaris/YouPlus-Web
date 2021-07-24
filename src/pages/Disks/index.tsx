@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
 import useDisksModel from "./model";
-import {Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
-import {Storage, Store} from "@material-ui/icons";
+import {Grid, Typography} from "@material-ui/core";
 import useStyles from "./style";
 import DiskCard from "../../components/DiskCard";
+import {useHistory} from "react-router-dom";
 
 export interface DisksPagePropsType {
 
@@ -12,6 +12,7 @@ export interface DisksPagePropsType {
 const DisksPage = ({}: DisksPagePropsType) => {
     const classes = useStyles()
     const model = useDisksModel()
+    const history = useHistory()
     useEffect(() => {
         model.initData()
     },[])
@@ -25,7 +26,12 @@ const DisksPage = ({}: DisksPagePropsType) => {
                     model.disks.map(it => {
                         return (
                             <Grid item xl={2} lg={3} md={3} sm={6} xs={12} className={classes.item}>
-                                <DiskCard disk={it} />
+                                <DiskCard
+                                    disk={it}
+                                    onClick={() => {
+                                        history.push(`/disk/${it.name}`)
+                                    }}
+                                />
                             </Grid>
                         )
                     })

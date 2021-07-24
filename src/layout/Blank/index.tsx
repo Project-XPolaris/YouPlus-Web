@@ -21,6 +21,7 @@ import {OptionsObject, SnackbarMessage, useSnackbar} from "notistack";
 import {useEffect} from "react";
 import SystemPage from "../../pages/System";
 import UserDetail from "../../pages/UserDetail";
+import DiskDetailPage from "../../pages/DiskDetail";
 
 export interface BlankLayoutPropsType {
 
@@ -28,40 +29,41 @@ export interface BlankLayoutPropsType {
 
 const BlankLayout = ({}: BlankLayoutPropsType) => {
     const layoutModel = useLayoutModel()
-    const { enqueueSnackbar } = useSnackbar()
+    const {enqueueSnackbar} = useSnackbar()
     const onGlobalSnackMessage = (e: any) => {
-        const { message,options } : {message: SnackbarMessage, options?: OptionsObject} = e.detail
-        enqueueSnackbar(message,options)
+        const {message, options}: { message: SnackbarMessage, options?: OptionsObject } = e.detail
+        enqueueSnackbar(message, options)
     }
     useEffect(() => {
-        document.addEventListener("globalMessage",onGlobalSnackMessage)
-    },[])
+        document.addEventListener("globalMessage", onGlobalSnackMessage)
+    }, [])
     return (
         <div>
-            <Dialog open={layoutModel.confirmDialogController.open} onClose={layoutModel.confirmDialogController.onClose}>
+            <Dialog open={layoutModel.confirmDialogController.open}
+                    onClose={layoutModel.confirmDialogController.onClose}>
                 <DialogTitle>
-                    { layoutModel.confirmDialogController.title }
+                    {layoutModel.confirmDialogController.title}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        { layoutModel.confirmDialogController.message }
+                        {layoutModel.confirmDialogController.message}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     {
                         layoutModel.confirmDialogController.onOk &&
-                            <Button onClick={() => {
-                                if (layoutModel.confirmDialogController.onOk) {
-                                    layoutModel.confirmDialogController.onOk()
-                                }
-                                layoutModel.confirmDialogController.onClose()
-                            }}>
-                                OK
-                            </Button>
+                        <Button onClick={() => {
+                            if (layoutModel.confirmDialogController.onOk) {
+                                layoutModel.confirmDialogController.onOk()
+                            }
+                            layoutModel.confirmDialogController.onClose()
+                        }}>
+                            OK
+                        </Button>
                     }
                     {
                         <Button onClick={layoutModel.confirmDialogController.onClose}>
-                           Cancel
+                            Cancel
                         </Button>
                     }
                 </DialogActions>
@@ -93,6 +95,11 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                             <DisksPage/>
                         </BaseLayout>
                     </Route>
+                    <Route path="/disk/:name">
+                        <BaseLayout>
+                            <DiskDetailPage/>
+                        </BaseLayout>
+                    </Route>
                     <Route path="/users">
                         <BaseLayout>
                             <UsersPage/>
@@ -100,7 +107,7 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                     </Route>
                     <Route path="/user/:name">
                         <BaseLayout>
-                            <UserDetail />
+                            <UserDetail/>
                         </BaseLayout>
                     </Route>
                     <Route path="/folders">
@@ -125,12 +132,12 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                     </Route>
                     <Route path="/groups">
                         <BaseLayout>
-                            <GroupsPage />
+                            <GroupsPage/>
                         </BaseLayout>
                     </Route>
                     <Route path="/group/:name/info">
                         <BaseLayout>
-                            <GroupDetailPage />
+                            <GroupDetailPage/>
                         </BaseLayout>
                     </Route>
                     <Route path="/home">
