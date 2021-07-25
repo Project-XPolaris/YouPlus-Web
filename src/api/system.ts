@@ -1,5 +1,6 @@
 import apiRequest from "../utils/request";
 import {ApplicationConfig} from "../config";
+import {BaseResponse} from "./base";
 
 export interface Sysinfo {
     version: string;
@@ -107,3 +108,41 @@ export const fetchSystemInfo = async () : Promise<SystemInfo> => {
     return await apiRequest.get(ApplicationConfig.apiPaths.systemInfo)
 }
 
+export interface CpuStat {
+    idle: number;
+    total: number;
+    user: number;
+    system: number;
+    iowait: number;
+}
+
+export interface MemoryStat {
+    total: number;
+    free: number;
+    used: number;
+    cache: number;
+}
+
+export interface SystemMonitor {
+    monitor:{
+        cpu: CpuStat;
+        memory: MemoryStat;
+    }
+}
+
+export const fetchSystemMonitor = async ():Promise<BaseResponse & SystemMonitor> => {
+    return await apiRequest.get(ApplicationConfig.apiPaths.systemMonitor)
+}
+
+export interface DeviceInfo {
+    appCount: number;
+    diskCount: number;
+    shareFolderCount: number;
+    storageCount: number;
+    userCount: number;
+    zfsCount: number;
+
+}
+export const fetchDeviceInfo = async ():Promise<BaseResponse & DeviceInfo> => {
+    return await apiRequest.get(ApplicationConfig.apiPaths.deviceInfo)
+}

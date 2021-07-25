@@ -20,6 +20,8 @@ export const ApplicationConfig = {
     login: '/admin/auth',
     accountPassword: '/account/password',
     systemInfo: '/system/info',
+    systemMonitor: '/system/monitor',
+    deviceInfo: '/device/info',
     tasks: '/tasks',
     shutdown:"/os/shutdown",
     reboot:"/os/reboot",
