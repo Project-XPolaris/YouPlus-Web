@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {Button, Grid, Typography} from "@material-ui/core";
+import React from 'react';
+import {Button, Grid} from "@material-ui/core";
 import AppCard from "../../components/AppCard";
 import useAppsPageModel from "./model";
 import {App} from "../../api/apps";
@@ -22,7 +21,7 @@ export default function AppsPage({}: AppsPagePropsType) {
     const layoutModel = useLayoutModel()
     useInterval(() => {
         model.loadApp();
-    },3000)
+    }, 3000, {immediate: true})
     return (
         <div className={classes.root}>
             <InstallAppDialog
@@ -42,7 +41,7 @@ export default function AppsPage({}: AppsPagePropsType) {
                     variant="contained"
                     onClick={() => layoutModel.switchDialog("installApp")}
                     color="secondary"
-                    startIcon={<Add />}
+                    startIcon={<Add/>}
                 >
                     Install App
                 </Button>
