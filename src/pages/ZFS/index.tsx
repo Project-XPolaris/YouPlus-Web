@@ -121,15 +121,12 @@ const ZFSPage = ({}: ZFSPagePropsType) => {
                 <CreateZFSPoolDialog
                     open={layoutModel.getDialogOpen("newZFSPool")}
                     onClose={createPoolDialogSwitchHandler}
-                    onOk={async (form) => {
-                        await zfsModel.createPool({
-                            name: form.name,
-                            disks: form.disks.map(it => `/dev/${it}`)
-                        })
+                    onOk={async () => {
                         enqueueSnackbar("create pool success", {
                             variant: 'success'
                         })
                         createPoolDialogSwitchHandler()
+                        await zfsModel.refresh()
                     }}
                 />
                 <Dialog open={Boolean(deleteConfirmDialog.open)} maxWidth={"xl"}>

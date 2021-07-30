@@ -1903,6 +1903,17 @@
   dependencies:
     "@babel/runtime" "^7.4.4"
 
+"@material-ui/lab@^4.0.0-alpha.60":
+  version "4.0.0-alpha.60"
+  resolved "https://registry.nlark.com/@material-ui/lab/download/@material-ui/lab-4.0.0-alpha.60.tgz#5ad203aed5a8569b0f1753945a21a05efa2234d2"
+  integrity sha1-WtIDrtWoVpsPF1OUWiGgXvoiNNI=
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@material-ui/utils" "^4.11.2"
+    clsx "^1.0.4"
+    prop-types "^15.7.2"
+    react-is "^16.8.0 || ^17.0.0"
+
 "@material-ui/styled-engine@5.0.0-alpha.20":
   version "5.0.0-alpha.20"
   resolved "https://registry.npm.taobao.org/@material-ui/styled-engine/download/@material-ui/styled-engine-5.0.0-alpha.20.tgz#9c3081bc6634b9f029eb5d72098a489fe70cf95f"
@@ -1968,6 +1979,15 @@
     "@babel/runtime" "^7.4.4"
     "@types/prop-types" "^15.7.3"
     "@types/react-is" "^16.7.1 || ^17.0.0"
+    prop-types "^15.7.2"
+    react-is "^16.8.0 || ^17.0.0"
+
+"@material-ui/utils@^4.11.2":
+  version "4.11.2"
+  resolved "https://registry.nlark.com/@material-ui/utils/download/@material-ui/utils-4.11.2.tgz#f1aefa7e7dff2ebcb97d31de51aecab1bb57540a"
+  integrity sha1-8a76fn3/Lry5fTHeUa7KsbtXVAo=
+  dependencies:
+    "@babel/runtime" "^7.4.4"
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 

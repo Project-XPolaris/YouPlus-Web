@@ -16,6 +16,7 @@ export const ApplicationConfig = {
     share:"/share",
     shareUpdate:"/share/update",
     zfs:"/zpool",
+    zfsConf:"/zpool/conf",
     storage: '/storage',
     login: '/admin/auth',
     accountPassword: '/account/password',

@@ -1,8 +1,8 @@
 import React from 'react'
 import useStyles from "./style";
-import {Divider, Grid, Paper, Table, TableBody, TableCell, TableRow, Typography} from "@material-ui/core";
+import {Divider, Grid, Paper, Typography} from "@material-ui/core";
 import clsx from "clsx";
-import {Bar, Pie, Progress, RingProgress} from '@ant-design/charts';
+import {Pie, RingProgress} from '@ant-design/charts';
 import {CpuStat} from "../../../../api/system";
 
 export interface CpuMonitorCardPropsType {
@@ -39,9 +39,6 @@ const CpuMonitorCard = ({className, cpu}: CpuMonitorCardPropsType) => {
                 </Grid>
                 <Grid item className={classes.chart} xs={12} sm={12} md={12} lg={4} xl={4}>
                     <Pie
-                        label={
-                            null
-                        }
                         innerRadius={0.8}
                         width={160}
                         height={160}

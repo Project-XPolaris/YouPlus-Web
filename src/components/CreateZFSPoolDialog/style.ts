@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.down('md')]: {
                 width: "80vw",
             },
-            height: theme.spacing(60)
+            height: theme.spacing(60),
+            backgroundColor: '#FAFAFA'
         },
         field:{
             marginTop: theme.spacing(2)
@@ -24,6 +25,13 @@ const useStyles = makeStyles((theme: Theme) =>
         divider:{
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(2)
+        },
+        action:{
+            display: "flex",
+            justifyContent: "space-between"
+        },
+        stepView:{
+            padding: theme.spacing(2)
         }
     }),
 );

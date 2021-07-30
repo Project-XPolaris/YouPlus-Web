@@ -28,7 +28,7 @@ export interface Part {
 export interface Disk {
     name: string
     model: string
-    size: string
+    size: number
     parts?: Part[]
 }
 
