@@ -6,7 +6,19 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
-import {Apps, Archive, Assignment, Dashboard, Dns, Folder, Group, Person, Settings, Storage} from "@material-ui/icons";
+import {
+    Apps,
+    Archive,
+    Assignment,
+    Dashboard,
+    Dns,
+    Folder,
+    Group, Link,
+    NetworkCell,
+    Person,
+    Settings,
+    Storage
+} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {useUpdate} from "ahooks";
 import {ListSubheader, useMediaQuery} from "@material-ui/core";
@@ -86,6 +98,17 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                             <Apps/>
                         </ListItemIcon>
                         <ListItemText primary={"Apps"}/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={"network"}
+                        selected={history.location.pathname === "/network"}
+                        onClick={() => changeUrl("/network")}
+                    >
+                        <ListItemIcon>
+                            <Link/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Network"}/>
                     </ListItem>
                 </List>
                 <List
