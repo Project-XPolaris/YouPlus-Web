@@ -18,7 +18,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         sectionTitle:{
             ...theme.typography.subtitle1,
-            fontWeight: 600
+            fontSize: 14,
+            fontWeight: 200,
+            color: "#212121",
+            textTransform: 'uppercase'
         },
         sectionContent:{
             marginTop: theme.spacing(2),

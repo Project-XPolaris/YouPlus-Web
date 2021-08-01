@@ -53,16 +53,12 @@ const NetworkDetail = ({}: NetworkDetailPropsType) => {
                         </Grid>
                         <Divider />
                         <div className={classes.sectionContent}>
+                            <div className={classes.sectionTitle}>
+                                Address
+                            </div>
                             <Table>
                                 <TableHead>
-                                    <TableRow>
-                                        <TableCell>
-                                            Address
-                                        </TableCell>
-                                        <TableCell>
-                                            Type
-                                        </TableCell>
-                                    </TableRow>
+
                                 </TableHead>
                                 <TableBody>
                                     {
