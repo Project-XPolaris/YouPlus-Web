@@ -1,16 +1,6 @@
 import {createModel} from "hox";
 import {useState} from "react";
-import {
-    App,
-    fetchApps,
-    installApp,
-    removeAutoStart,
-    setAutoStart,
-    startApp,
-    stopApp,
-    unInstallAPP
-} from "../../api/apps";
-import {useInterval} from "ahooks";
+import {App, fetchApps, removeAutoStart, setAutoStart, startApp, stopApp, unInstallAPP} from "../../api/apps";
 
 const AppsPageModel = () => {
     const [appList,setAppList] = useState<App[]>([])

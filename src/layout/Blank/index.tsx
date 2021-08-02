@@ -22,6 +22,8 @@ import {useEffect} from "react";
 import SystemPage from "../../pages/System";
 import UserDetail from "../../pages/UserDetail";
 import DiskDetailPage from "../../pages/DiskDetail";
+import NetworkPage from "../../pages/Network";
+import NetworkDetail from "../../pages/NetworkDetail";
 
 export interface BlankLayoutPropsType {
 
@@ -95,6 +97,17 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                             <DisksPage/>
                         </BaseLayout>
                     </Route>
+                    <Route path="/network/:name">
+                        <BaseLayout>
+                            <NetworkDetail/>
+                        </BaseLayout>
+                    </Route>
+                    <Route path="/network">
+                        <BaseLayout>
+                            <NetworkPage/>
+                        </BaseLayout>
+                    </Route>
+
                     <Route path="/disk/:name">
                         <BaseLayout>
                             <DiskDetailPage/>
