@@ -9,12 +9,14 @@ import UserSelectDialog from "../../components/UserSelectDialog";
 import SwitchSelectDialog from "../../components/SwitchSelectDialog";
 import {Delete} from "@material-ui/icons";
 import useLayoutModel from "../../model/layout";
+import UserGroupSelectDialog from "../../components/UserGroupSelectDialog";
+import UserAndGroupListCard from "../../components/UserAndGroupListCard";
 
 export interface ShareFolderDetailPropsType {
 
 }
 
-type UserPickModeType = "readUsers" | "writeUsers" | "validUsers" | "invalidUsers"
+type UserAndGroupPickModeType = "readUsers" | "writeUsers" | "validUsers" | "invalidUsers" | "validGroup" | "invalidGroup" | 'readGroup' | 'writeGroup'
 type SwitchSelectTargetType = "public" | 'readonly' | "writable" | 'enable'
 const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
     const {name}: any = useParams();
@@ -25,10 +27,12 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
     useEffect(() => {
         model.initData(name)
     }, [])
-    const [pickUpUserMode, setPickUpUserMode] = useState<UserPickModeType | undefined>()
+    const [pickUpUserMode, setPickUpUserMode] = useState<UserAndGroupPickModeType | undefined>()
+    const [pickUpGroupMode, setPickUpGroupMode] = useState<UserAndGroupPickModeType | undefined>()
     const [pickUserExcept, setPickUserExcept] = useState<string[]>([])
+    const [pickGroupExcept, setPickGroupExcept] = useState<string[]>([])
     const [switchSelectTarget, setSwitchSelectTarget] = useState<SwitchSelectTargetType | undefined>()
-    const onOk = async (user: string) => {
+    const onPickupUserOk = async (name: string) => {
         if (!model.folder) {
             return
         }
@@ -41,28 +45,72 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
             case "readUsers":
                 model.update({
                     ...option,
-                    readUsers: [...(model.folder?.readUsers ?? []).map(it => it.name), user]
+                    readUsers: [...(model.folder?.readUsers ?? []).map(it => it.name), name]
                 })
                 break;
             case "writeUsers":
                 model.update({
                     ...option,
-                    writeUsers: [...(model.folder?.writeUsers ?? []).map(it => it.name), user]
+                    writeUsers: [...(model.folder?.writeUsers ?? []).map(it => it.name), name]
                 })
                 break;
             case "validUsers":
                 model.update({
                     ...option,
-                    validUsers: [...(model.folder?.validUsers ?? []).map(it => it.name), user]
+                    validUsers: [...(model.folder?.validUsers ?? []).map(it => it.name), name]
                 })
                 break;
             case "invalidUsers":
                 model.update({
                     ...option,
-                    invalidUsers: [...(model.folder?.invalidUsers ?? []).map(it => it.name), user]
+                    invalidUsers: [...(model.folder?.invalidUsers ?? []).map(it => it.name), name]
                 })
+                break;
+            case 'validGroup':
+                model.update({
+                    ...option,
+                    validGroups: [...(model.folder?.validGroups ?? []).map(it => it.name), name]
+                })
+                break;
         }
         setPickUpUserMode(undefined)
+    }
+    const onPickupGroupOk = (name:string) => {
+        if (!model.folder) {
+            return
+        }
+        const option = {
+            public: model.folder.public,
+            enable: model.folder.enable,
+            readonly: model.folder.readonly
+        }
+        switch (pickUpGroupMode) {
+            case 'validGroup':
+                model.update({
+                    ...option,
+                    validGroups: [...(model.folder?.validGroups ?? []).map(it => it.name), name]
+                })
+                break;
+            case 'invalidGroup':
+                model.update({
+                    ...option,
+                    invalidGroups: [...(model.folder?.invalidGroups ?? []).map(it => it.name), name]
+                })
+                break;
+            case 'readGroup':
+                model.update({
+                    ...option,
+                    readGroups: [...(model.folder?.readGroups ?? []).map(it => it.name), name]
+                })
+                break;
+            case 'writeGroup':
+                model.update({
+                    ...option,
+                    writeGroups: [...(model.folder?.writeGroups ?? []).map(it => it.name), name]
+                })
+                break;
+        }
+        setPickUpGroupMode(undefined)
     }
     const onSwitchSelect = (value: boolean) => {
         if (!model.folder) {
@@ -91,9 +139,15 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
         <div className={classes.root}>
             <UserSelectDialog
                 onCancel={() => setPickUpUserMode(undefined)}
-                onOk={onOk}
+                onOk={onPickupUserOk}
                 open={Boolean(pickUpUserMode)}
                 except={pickUserExcept}
+            />
+            <UserGroupSelectDialog
+                onCancel={() => setPickUpGroupMode(undefined)}
+                onOk={onPickupGroupOk}
+                open={Boolean(pickUpGroupMode)}
+                except={pickGroupExcept}
             />
             <SwitchSelectDialog
                 onOk={onSwitchSelect}
@@ -163,9 +217,10 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
             </Grid>
             <Grid className={classes.grid} container spacing={4}>
                 <Grid xs={12} sm={6} xl={4} item>
-                    <UserListCard
+                    <UserAndGroupListCard
                         users={model.folder?.validUsers}
-                        title={"valid users"}
+                        groups={model.folder?.validGroups}
+                        title={"valid list"}
                         actions={
                             <>
                                 <Button onClick={() => {
@@ -174,25 +229,37 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                                 }}>
                                     add user
                                 </Button>
+                                <Button onClick={() => {
+                                    setPickGroupExcept((model.folder?.validGroups ?? []).map(it => it.name))
+                                    setPickUpGroupMode("validGroup")
+                                }}>
+                                    add group
+                                </Button>
                             </>
                         }
-                        onRemove={(name) => {
+                        onRemoveUser={(name) => {
                             if (!model.folder) {
                                 return
                             }
                             model.update({
-                                public: model.folder.public,
-                                enable: model.folder.enable,
-                                readonly: model.folder.readonly,
                                 validUsers: model.folder?.validUsers.map(it => it.name).filter(it => it !== name)
+                            })
+                        }}
+                        onRemoveGroup={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
+                            model.update({
+                                validGroups: model.folder?.validGroups.map(it => it.name).filter(it => it !== name)
                             })
                         }}
                     />
                 </Grid>
                 <Grid xs={12} sm={6} xl={4} item>
-                    <UserListCard
+                    <UserAndGroupListCard
                         users={model.folder?.invalidUsers}
-                        title={"invalid users"}
+                        groups={model.folder?.invalidGroups}
+                        title={"invalid list"}
                         actions={
                             <>
                                 <Button onClick={() => {
@@ -201,9 +268,15 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                                 }}>
                                     add user
                                 </Button>
+                                <Button onClick={() => {
+                                    setPickGroupExcept((model.folder?.invalidGroups ?? []).map(it => it.name))
+                                    setPickUpGroupMode("invalidGroup")
+                                }}>
+                                    add group
+                                </Button>
                             </>
                         }
-                        onRemove={(name) => {
+                        onRemoveUser={(name) => {
                             if (!model.folder) {
                                 return
                             }
@@ -214,12 +287,24 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                                 invalidUsers: model.folder?.invalidUsers.map(it => it.name).filter(it => it !== name)
                             })
                         }}
+                        onRemoveGroup={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
+                            model.update({
+                                public: model.folder.public,
+                                enable: model.folder.enable,
+                                readonly: model.folder.readonly,
+                                invalidGroups: model.folder?.invalidGroups.map(it => it.name).filter(it => it !== name)
+                            })
+                        }}
                     />
                 </Grid>
                 <Grid xs={12} sm={6} xl={4} item>
-                    <UserListCard
+                    <UserAndGroupListCard
                         users={model.folder?.readUsers}
-                        title={"read users"}
+                        groups={model.folder?.readGroups}
+                        title={"read list"}
                         actions={
                             <>
                                 <Button onClick={() => {
@@ -228,34 +313,51 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                                 }}>
                                     add user
                                 </Button>
+                                <Button onClick={() => {
+                                    setPickGroupExcept((model.folder?.readGroups ?? []).map(it => it.name))
+                                    setPickUpGroupMode("readGroup")
+                                }}>
+                                    add group
+                                </Button>
                             </>
                         }
-                        onRemove={(name) => {
+                        onRemoveUser={(name) => {
                             if (!model.folder) {
                                 return
                             }
                             model.update({
-                                public: model.folder.public,
-                                enable: model.folder.enable,
-                                readonly: model.folder.readonly,
                                 readUsers: model.folder?.readUsers.map(it => it.name).filter(it => it !== name)
+                            })
+                        }}
+                        onRemoveGroup={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
+                            model.update({
+                                readGroups: model.folder?.readGroups.map(it => it.name).filter(it => it !== name)
                             })
                         }}
                     />
                 </Grid>
                 <Grid xs={12} sm={6} xl={4} item>
-                    <UserListCard
+                    <UserAndGroupListCard
                         users={model.folder?.writeUsers}
+                        groups={model.folder?.writeGroups}
                         title={"write list"}
-                        onRemove={(name) => {
+                        onRemoveUser={(name) => {
                             if (!model.folder) {
                                 return
                             }
                             model.update({
-                                public: model.folder.public,
-                                enable: model.folder.enable,
-                                readonly: model.folder.readonly,
                                 writeUsers: model.folder?.writeUsers.map(it => it.name).filter(it => it !== name)
+                            })
+                        }}
+                        onRemoveGroup={(name) => {
+                            if (!model.folder) {
+                                return
+                            }
+                            model.update({
+                                writeGroups: model.folder?.writeGroups.map(it => it.name).filter(it => it !== name)
                             })
                         }}
                         actions={
@@ -265,6 +367,12 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                                     setPickUpUserMode("writeUsers")
                                 }}>
                                     add user
+                                </Button>
+                                <Button onClick={() => {
+                                    setPickGroupExcept((model.folder?.writeGroups ?? []).map(it => it.name))
+                                    setPickUpGroupMode("writeGroup")
+                                }}>
+                                    add group
                                 </Button>
                             </>
                         }

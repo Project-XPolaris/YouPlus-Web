@@ -4,8 +4,6 @@ import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import useNetworkDetailModel from "./model";
 import ValueField from "../../components/ValueField";
-import filesize from "filesize";
-import {getNetworkSpeedText} from "../../utils/network";
 
 export interface NetworkDetailPropsType {
 

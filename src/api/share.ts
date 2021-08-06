@@ -1,6 +1,6 @@
 import apiRequest from "../utils/request";
 import {ApplicationConfig} from "../config";
-import {UserListResponse} from "./users";
+import {UserGroup, UserListResponse} from "./users";
 import {BaseResponse} from "./base";
 
 export interface ShareFolderUser {
@@ -18,6 +18,10 @@ export interface ShareFolder {
     invalidUsers: ShareFolderUser[],
     readUsers: ShareFolderUser[],
     writeUsers: ShareFolderUser[],
+    validGroups: UserGroup[]
+    invalidGroups: UserGroup[]
+    readGroups: UserGroup[]
+    writeGroups: UserGroup[]
     public: boolean,
     readonly: boolean
     enable: boolean
@@ -50,6 +54,10 @@ export interface ShareUpdateOption {
     writeUsers?: string[]
     validUsers?: string[]
     invalidUsers?: string[]
+    readGroups?: string[]
+    writeGroups?: string[]
+    validGroups?: string[]
+    invalidGroups?: string[]
     public?: boolean
     readonly?: boolean
     enable?: boolean
