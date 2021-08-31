@@ -1,4 +1,4 @@
-import {ReactElement, useEffect} from "react";
+import React, {ReactElement, useEffect} from "react";
 import ListPage from "../../components/ListPage";
 import {Avatar, Button, List, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import {Add, Group} from "@material-ui/icons";
@@ -7,6 +7,8 @@ import NewGroupDialog from "../../components/NewGroupDialog";
 import useLayoutModel from "../../model/layout";
 import useStyles from "./style";
 import {useHistory} from "react-router-dom";
+import {usePageHeadController} from "../../components/PageHead/hook";
+import PageHead from "../../components/PageHead";
 
 export interface GroupsPagePropsType {
 
@@ -20,48 +22,52 @@ const GroupsPage = ({}: GroupsPagePropsType): ReactElement => {
     useEffect(() => {
         model.fetchData()
     }, [])
+    const pageHeadController = usePageHeadController({})
     return (
-        <ListPage
-            title={"Groups"}
-            actions={
-                <>
-                    <Button startIcon={<Add/>} variant={"contained"}
-                            onClick={() => layoutModel.switchDialog("newgroup")}>
-                        New user group
-                    </Button>
-                </>
-            }
-        >
-            <div>
-                <NewGroupDialog
-                    onOk={(name) => {
-                        model.create(name)
-                        layoutModel.switchDialog("newgroup")
-                    }}
-                    onCancel={() => layoutModel.switchDialog("newgroup")}
-                    open={layoutModel.getDialogOpen("newgroup")}
-                />
-                <List>
-                    {
-                        model.groups.map(group => {
-                            return (
-                                <ListItem key={group.gid} button onClick={() => {history.push(`/group/${group.name}/info`)}}>
-                                    <ListItemAvatar>
-                                        <Avatar className={classes.avatar}>
-                                            <Group/>
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary={group.name} secondary={group.type}/>
-                                </ListItem>
-                            )
-                        })
+        <div>
+            <NewGroupDialog
+                onOk={(name) => {
+                    model.create(name)
+                    layoutModel.switchDialog("newgroup")
+                }}
+                onCancel={() => layoutModel.switchDialog("newgroup")}
+                open={layoutModel.getDialogOpen("newgroup")}
+            />
+            <PageHead
+                title={"Groups"}
+                controller={pageHeadController}
+                actions={
+                    <>
+                        <Button startIcon={<Add/>} variant={"text"}
+                                onClick={() => layoutModel.switchDialog("newgroup")}>
+                            New user group
+                        </Button>
+                    </>
+                }
 
-                    }
-                </List>
-            </div>
+            />
+            <List>
+                {
+                    model.groups.map(group => {
+                        return (
+                            <ListItem key={group.gid} button onClick={() => {
+                                history.push(`/group/${group.name}/info`)
+                            }}>
+                                <ListItemAvatar>
+                                    <Avatar className={classes.avatar}>
+                                        <Group/>
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary={group.name} secondary={group.type}/>
+                            </ListItem>
+                        )
+                    })
+
+                }
+            </List>
 
 
-        </ListPage>
+        </div>
     )
 }
 

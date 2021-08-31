@@ -17,6 +17,8 @@ import useLayoutModel from "../../model/layout";
 import NewUserDialog from "../../components/NewUserDialog";
 import {useContextMenu} from "../../hooks/ContextMenu";
 import {useHistory} from "react-router-dom";
+import PageHead from "../../components/PageHead";
+import {usePageHeadController} from "../../components/PageHead/hook";
 
 export interface UsersPagePropsType {
 
@@ -31,6 +33,7 @@ const UsersPage = ({}: UsersPagePropsType) => {
     const onUserClickItem = (username:string) => {
         history.push(`/user/${username}`)
     }
+    const pageHeadController = usePageHeadController({})
     useEffect(() => {
         usersModel.initData()
     }, [])
@@ -59,19 +62,23 @@ const UsersPage = ({}: UsersPagePropsType) => {
                     <Delete/> Remove user
                 </MenuItem>
             </Menu>
-            <Typography variant={"h4"} className={classes.title}>
-                Users
-            </Typography>
-            <div className={classes.actions}>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<Add />}
-                    onClick={onSwitchNewUserDialog}
-                >
-                    New user
-                </Button>
-            </div>
+            <PageHead
+                title={"Users"}
+                controller={pageHeadController}
+                actions={
+                    <>
+                        <Button
+                            variant="text"
+                            color="secondary"
+                            startIcon={<Add />}
+                            onClick={onSwitchNewUserDialog}
+                        >
+                            New user
+                        </Button>
+                    </>
+                }
+
+            />
             <List>
                 {
                     usersModel.users.map(it => {

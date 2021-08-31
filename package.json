@@ -2,6 +2,7 @@
   "name": "youplus-web",
   "version": "0.1.0",
   "private": true,
+  "homepage":"./",
   "dependencies": {
     "@ant-design/charts": "^1.2.3",
     "@emotion/react": "^11.1.4",

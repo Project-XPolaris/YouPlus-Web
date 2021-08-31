@@ -6,6 +6,9 @@ const useStyles = makeStyles((theme: Theme) =>
         list:{
             marginTop: theme.spacing(2)
         },
+        content:{
+            padding: theme.spacing(2)
+        },
         deleteDialogContent:{
             width:theme.spacing(50),
             [theme.breakpoints.down('md')]: {
@@ -18,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
         deleteDialogItem:{
             marginTop: theme.spacing(2),
             backgroundColor: '#EEEEEE',
+        },
+        headAction:{
+            alignSelf: 'center'
         }
     }),
 );

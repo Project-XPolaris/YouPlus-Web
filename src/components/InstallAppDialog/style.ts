@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
     content: {
         width: "60vw",
         height: "70vh",
-        backgroundColor:"#EEE",
+        backgroundColor:"#fcfcfc",
     },
     actions:{
         backgroundColor: "white",

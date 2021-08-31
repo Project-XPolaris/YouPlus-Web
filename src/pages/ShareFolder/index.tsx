@@ -7,6 +7,8 @@ import NewShareDialog from "../../components/NewShareDialog";
 import useLayoutModel from "../../model/layout";
 import layout from "../../model/layout";
 import {useHistory} from "react-router-dom";
+import PageHead from "../../components/PageHead";
+import {usePageHeadController} from "../../components/PageHead/hook";
 
 export interface ShareFolderPropsType {
 
@@ -20,12 +22,10 @@ const ShareFolder = ({}: ShareFolderPropsType) => {
         model.initData()
     }, [])
     const layoutModel = useLayoutModel()
+    const pageHeadController = usePageHeadController({})
     const newShareSwitchHandler = layoutModel.getDialogSwitchHandler("newShare")
     return (
         <div>
-            <Typography variant={"h4"} className={classes.title}>
-                Folders
-            </Typography>
             {
                 layoutModel.getDialogOpen("newShare") &&
                 <NewShareDialog
@@ -37,17 +37,23 @@ const ShareFolder = ({}: ShareFolderPropsType) => {
                     }}
                 />
             }
+            <PageHead
+                title={"ShareFolders"}
+                controller={pageHeadController}
+                actions={
+                    <>
+                        <Button
+                            variant="text"
+                            color="secondary"
+                            startIcon={<Add />}
+                            onClick={newShareSwitchHandler}
+                        >
+                            New share folder
+                        </Button>
+                    </>
+                }
 
-            <div className={classes.actions}>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<Add />}
-                    onClick={newShareSwitchHandler}
-                >
-                    New share folder
-                </Button>
-            </div>
+            />
             <List>
                 {
                     model.folders.map(it => {

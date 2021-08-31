@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme) =>
         avatar:{
             backgroundColor: theme.palette.primary.dark
         },
+        content:{
+            padding: theme.spacing(2)
+        },
         title:{
             padding:theme.spacing(2)
         },

@@ -2,16 +2,17 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
+        root: {},
+        content: {
             padding: theme.spacing(2)
         },
-        title:{
-            padding:theme.spacing(2)
-        },
-        tableSectionHeader:{
+        title: {
             padding: theme.spacing(2)
         },
-        section:{
+        tableSectionHeader: {
+            padding: theme.spacing(2)
+        },
+        section: {
             marginBottom: theme.spacing(2)
         }
     }),

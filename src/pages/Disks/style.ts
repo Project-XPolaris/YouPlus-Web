@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
         },
+        content:{
+            padding: theme.spacing(2)
+        },
         avatar:{
             backgroundColor: theme.palette.primary.dark
         },

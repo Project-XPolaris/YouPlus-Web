@@ -9,6 +9,8 @@ import {Apps, Archive, Dns, Folder, Person} from "@material-ui/icons";
 import SystemInfoCard from "./part/SystemInfoCard";
 import CpuMonitorCard from "./part/CpuMonitorCard";
 import MemoryMonitorCard from "./part/MemoryMonitorCard";
+import PageHead from "../../components/PageHead";
+import {usePageHeadController} from "../../components/PageHead/hook";
 
 export interface DashboardPagePropsType {
 
@@ -17,6 +19,7 @@ export interface DashboardPagePropsType {
 const DashboardPage = ({}: DashboardPagePropsType): ReactElement => {
     const classes = useStyles()
     const model = useDashboardModel()
+    const pageHeadController = usePageHeadController({})
     useInterval(() => {
         model.initData()
         model.refreshMonitorData()
@@ -26,68 +29,72 @@ const DashboardPage = ({}: DashboardPagePropsType): ReactElement => {
     },[])
     return (
         <div className={classes.root}>
-            <Grid container spacing={2}>
-                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
-                    <IconStatCard
-                        label={"Disks"}
-                        value={`${model.deviceInfo?.diskCount ?? 0} Disks`}
-                        icon={<DiskIcon />}
-                    />
-                </Grid>
-                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
-                    <IconStatCard
-                        label={"Storage"}
-                        value={`${model.deviceInfo?.storageCount ?? 0} Storage`}
-                        icon={<Archive />}
-                    />
-                </Grid>
-                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
-                    <IconStatCard
-                        label={"Share Folder"}
-                        value={`${model.deviceInfo?.shareFolderCount ?? 0} Share folders`}
-                        icon={<Folder />}
-                    />
-                </Grid>
-                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
-                    <IconStatCard
-                        label={"Users"}
-                        value={`${model.deviceInfo?.userCount ?? 0} Users`}
-                        icon={<Person />}
-                    />
-                </Grid>
-                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
-                    <IconStatCard
-                        label={"ZFS pool"}
-                        value={`${model.deviceInfo?.zfsCount ?? 0} Pool`}
-                        icon={<Dns />}
-                    />
-                </Grid>
-                <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
-                    <IconStatCard
-                        label={"Apps"}
-                        value={`${model.deviceInfo?.appCount ?? 0} apps`}
-                        icon={<Apps />}
-                    />
-                </Grid>
-                {
-                    model.systemInfo &&
-                    <Grid item xs={12} sm={12} md={12} lg={4} xl={3}>
-                        <SystemInfoCard systemInfo={model.systemInfo} />
+            <PageHead title={"Dashboard"} controller={pageHeadController} />
+            <div className={classes.content}>
+                <Grid container spacing={2}>
+                    <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
+                        <IconStatCard
+                            label={"Disks"}
+                            value={`${model.deviceInfo?.diskCount ?? 0} Disks`}
+                            icon={<DiskIcon />}
+                        />
                     </Grid>
-                }
-                {
-                    model.systemMonitor &&
-                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                        <CpuMonitorCard cpu={model.systemMonitor.monitor.cpu} />
+                    <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
+                        <IconStatCard
+                            label={"Storage"}
+                            value={`${model.deviceInfo?.storageCount ?? 0} Storage`}
+                            icon={<Archive />}
+                        />
                     </Grid>
-                }
-                {
-                    model.systemMonitor &&
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-                        <MemoryMonitorCard memory={model.systemMonitor.monitor.memory} />
+                    <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
+                        <IconStatCard
+                            label={"Share Folder"}
+                            value={`${model.deviceInfo?.shareFolderCount ?? 0} Share folders`}
+                            icon={<Folder />}
+                        />
                     </Grid>
-                }
-            </Grid>
+                    <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
+                        <IconStatCard
+                            label={"Users"}
+                            value={`${model.deviceInfo?.userCount ?? 0} Users`}
+                            icon={<Person />}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
+                        <IconStatCard
+                            label={"ZFS pool"}
+                            value={`${model.deviceInfo?.zfsCount ?? 0} Pool`}
+                            icon={<Dns />}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={3} md={4} lg={2} xl={2}>
+                        <IconStatCard
+                            label={"Apps"}
+                            value={`${model.deviceInfo?.appCount ?? 0} apps`}
+                            icon={<Apps />}
+                        />
+                    </Grid>
+                    {
+                        model.systemInfo &&
+                        <Grid item xs={12} sm={12} md={12} lg={4} xl={3}>
+                            <SystemInfoCard systemInfo={model.systemInfo} />
+                        </Grid>
+                    }
+                    {
+                        model.systemMonitor &&
+                        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                            <CpuMonitorCard cpu={model.systemMonitor.monitor.cpu} />
+                        </Grid>
+                    }
+                    {
+                        model.systemMonitor &&
+                        <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
+                            <MemoryMonitorCard memory={model.systemMonitor.monitor.memory} />
+                        </Grid>
+                    }
+                </Grid>
+            </div>
+
         </div>
     )
 }

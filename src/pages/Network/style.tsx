@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
             padding:theme.spacing(2)
         },
         content:{
-            margin: theme.spacing(2)
+            padding: theme.spacing(2)
         },
         section:{
             marginBottom: theme.spacing(2)

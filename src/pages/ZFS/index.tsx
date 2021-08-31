@@ -27,6 +27,8 @@ import {ZFSPool} from "../../api/zfs";
 import useStorageModel from "../Storage/model";
 import {useSnackbar} from "notistack";
 import {useHistory} from "react-router-dom";
+import PageHead from "../../components/PageHead";
+import {usePageHeadController} from "../../components/PageHead/hook";
 
 export interface ZFSPagePropsType {
 
@@ -49,7 +51,7 @@ const ZFSPage = ({}: ZFSPagePropsType) => {
         open: boolean
     }>({name: "", open: false})
     const {enqueueSnackbar} = useSnackbar();
-
+    const pageHeadController = usePageHeadController({})
     const openDeleteConfirm = (name: string) => {
         setDeleteConfirmDialog({
             name,
@@ -77,20 +79,19 @@ const ZFSPage = ({}: ZFSPagePropsType) => {
     };
     const asStorageSwitchHandler = layoutModel.getDialogSwitchHandler('poolAsStorageDialog')
     return (
-        <ListPage
-            title={"Pools"}
-            actions={
+        <div className={classes.root}>
+            <PageHead title={"Pools"} controller={pageHeadController} actions={
                 <>
                     <Button
-                        variant={"contained"}
+                        className={classes.headAction}
+                        variant={"text"}
                         color={'secondary'}
                         startIcon={<Add/>}
                         onClick={createPoolDialogSwitchHandler}
                     >New pool</Button>
                 </>
-            }
-        >
-            <>
+            } />
+            <div className={classes.content}>
                 <Menu
                     anchorEl={moreMenuEl}
                     keepMounted
@@ -184,8 +185,8 @@ const ZFSPage = ({}: ZFSPagePropsType) => {
                     }
 
                 </List>
-            </>
-        </ListPage>
+            </div>
+        </div>
     )
 }
 

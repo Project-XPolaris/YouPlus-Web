@@ -4,6 +4,8 @@ import React, {useEffect} from "react";
 import useNetworkModel from "./model";
 import NetworkCard from "../../components/NetworkCard";
 import {useHistory} from "react-router-dom";
+import PageHead from "../../components/PageHead";
+import {usePageHeadController} from "../../components/PageHead/hook";
 
 export interface NetworkPagePropsType {
 
@@ -13,14 +15,13 @@ const NetworkPage = ({}: NetworkPagePropsType) => {
     const classes = useStyles()
     const networkModel = useNetworkModel()
     const history = useHistory()
+    const pageHeadController = usePageHeadController({})
     useEffect(() => {
         networkModel.refresh()
     },[])
     return (
         <div>
-            <Typography variant={"h4"} className={classes.title}>
-                Network
-            </Typography>
+            <PageHead title={"Network"} controller={pageHeadController} />
             <div className={classes.content}>
                 <Grid container  spacing={2}>
                     {

@@ -13,12 +13,24 @@ export type App = {
 export type FetchAppsResponse = {
     apps: App[]
 }
+
+export interface AppPackArg {
+    name: string
+    desc: string
+    key: string
+    type: string
+    source:string
+    require: boolean
+}
+
 export interface AppPackInfo {
     appName: string;
     id: number;
     name: string;
     type: string;
+    args: AppPackArg[]
 }
+
 export const fetchApps = async (): Promise<FetchAppsResponse> => {
     return await apiRequest.get(ApplicationConfig.apiPaths.apps, {})
 }
@@ -38,23 +50,32 @@ export const stopApp = async (appId: string) => {
 export const setAutoStart = (id: string) => {
     return apiRequest.post(ApplicationConfig.apiPaths.autostart, {data: {id}})
 }
-export const removeAutoStart = (id:string) => {
+export const removeAutoStart = (id: string) => {
     return apiRequest.delete(ApplicationConfig.apiPaths.autostart, {data: {id}})
 }
 
-export const unInstallAPP = (id:string) => {
-    return apiRequest.post(ApplicationConfig.apiPaths.uninstallApp,{ params: {id: id } })
+export const unInstallAPP = (id: string) => {
+    return apiRequest.post(ApplicationConfig.apiPaths.uninstallApp, {params: {id: id}})
 }
-export const installApp = (id:number) => {
-    return apiRequest.post(ApplicationConfig.apiPaths.installApp,{
-       params:{id}
+export const installApp = (
+    id: number,
+    {
+       args
+    }:{
+        args?: { key: string, value: string, source: string }[]
+    }) => {
+    return apiRequest.post(ApplicationConfig.apiPaths.installApp, {
+        params: {id},
+        data:{
+            args
+        }
     })
 }
 
-export const uploadAppPack = (file:File):Promise<BaseResponse & AppPackInfo> => {
+export const uploadAppPack = (file: File): Promise<BaseResponse & AppPackInfo> => {
     const form = new FormData()
-    form.append("file",file)
-    return apiRequest.post(ApplicationConfig.apiPaths.uploadApp,{
+    form.append("file", file)
+    return apiRequest.post(ApplicationConfig.apiPaths.uploadApp, {
         data: form
     })
 }

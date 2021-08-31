@@ -4,6 +4,8 @@ import useStyles from "./style";
 import InfoCard from "../../components/InfoCard";
 import {rebootDevice, shutdownDevice} from "../../api/os";
 import {showAPIResponseErrorMessage, showGlobalSnackMessage} from "../../utils/message";
+import PageHead from "../../components/PageHead";
+import {usePageHeadController} from "../../components/PageHead/hook";
 
 export interface SystemPagePropsType {
 
@@ -14,6 +16,7 @@ const SystemPage = ({}: SystemPagePropsType) => {
     const [isConfirmOpen, setIsConfirmOpen] = useState(false)
     const [confirmContent, setConfirmContent] = useState<string>()
     const [confirmAction,setConfirmAction] = useState<ActionTypes>()
+    const pageHeadController = usePageHeadController({})
     const openConfirmActionDialog = (content:string,action:ActionTypes) => {
         setConfirmContent(content)
         setConfirmAction(action)
@@ -60,9 +63,10 @@ const SystemPage = ({}: SystemPagePropsType) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Typography variant={"h4"} className={classes.title}>
-                System
-            </Typography>
+            <PageHead
+                title={"System"}
+                controller={pageHeadController}
+            />
             <Grid container>
                 <Grid item xs={12} sm={3} md={3} lg={2} xl={2} className={classes.item}>
                     <InfoCard

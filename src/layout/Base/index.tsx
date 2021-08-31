@@ -1,11 +1,8 @@
 import * as React from 'react';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
 import AppNavigation from "./parts/Nav";
 import AuthLayout from "../Auth";
-import AppToolbar from "./parts/Tool";
 import Notification from "../Notification";
 
 const drawerWidth = 240;
@@ -21,8 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         content: {
             flexGrow: 1,
             minHeight: "100vh",
-            paddingTop: theme.spacing(3),
-            backgroundColor: "#EEEEEE"
+            backgroundColor: "#F6F7F9",
         },
     }),
 );
@@ -34,13 +30,12 @@ const BaseLayout = ({children}: { children: any }) => {
             <Notification />
             <div className={classes.root}>
                 <CssBaseline/>
-                <AppBar position="fixed" className={classes.appBar}>
-                  <AppToolbar />
-                </AppBar>
+                {/*<AppBar position="fixed" className={classes.appBar} elevation={1}>*/}
+                {/*  <AppToolbar />*/}
+                {/*</AppBar>*/}
 
                 <AppNavigation/>
                 <main className={classes.content}>
-                    <Toolbar/>
                     {children}
                 </main>
             </div>

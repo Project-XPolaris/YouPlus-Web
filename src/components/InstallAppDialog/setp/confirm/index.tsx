@@ -1,18 +1,19 @@
 import useStyles from './style'
-import clsx from 'clsx'
-import React from "react";
-import {Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography} from "@material-ui/core";
-import {AppPackInfo} from "../../../../api/apps";
-import {AppsRounded, ArchiveRounded, LinkOffRounded, LinkRounded} from "@material-ui/icons";
+import React, {useState} from "react";
+import {Divider, List, ListItem, ListItemText, ListSubheader} from "@material-ui/core";
+import {AppPackArg, AppPackInfo} from "../../../../api/apps";
+import PathPickDialog from "../../../PathPickDialog";
+import {AppInstallForm} from "../../hook";
 
 export interface InstallPackInfoStepPropsType {
     className?: string
     packInfo?:AppPackInfo
+    form:AppInstallForm
 }
 
-const InstallPackInfoStep = ({className,packInfo}: InstallPackInfoStepPropsType): React.ReactElement => {
+const InstallPackInfoStep = ({className,packInfo,form}: InstallPackInfoStepPropsType): React.ReactElement => {
     const classes = useStyles()
-    console.log(packInfo)
+    const [selectPathContext,setSelectPathContext] = useState<string | null>()
     if (!packInfo) {
         return (
             <div>
@@ -20,9 +21,50 @@ const InstallPackInfoStep = ({className,packInfo}: InstallPackInfoStepPropsType)
             </div>
         )
     }
+    const renderArg = (arg:AppPackArg) => {
+        const onClick = () => {
+            if (arg.type === "path") {
+                setSelectPathContext(arg.key)
+            }
+        }
+        const isValidate = () => {
+            if (arg.require && !form.getArgValue(arg.key)) {
+                return false
+            }
+            return true
+        }
+        return (
+            <>
+                <ListItem button onClick={onClick}>
+                    <ListItemText
+                        primary={form.getArgValue(arg.key) ?? arg.name}
+                        secondary={arg.desc + (arg.require ? " (require)" : "")}
+                        className={isValidate() ? undefined : classes.invalidateArg}
+                    />
+                </ListItem>
+                <Divider />
+            </>
+        )
+    }
     return (
         <div>
-            <List>
+            <PathPickDialog
+                onClose={() => setSelectPathContext(null)}
+                onOk={(selectPath) => {
+                    if (selectPathContext) {
+                        form.updateArg(selectPathContext,selectPath)
+                    }
+                    setSelectPathContext(null)
+                }}
+                open={Boolean(selectPathContext)}
+            />
+            <List
+                subheader={
+                    <ListSubheader>
+                        Basic info
+                    </ListSubheader>
+                }
+            >
                 <ListItem>
                     <ListItemText primary={packInfo.appName} secondary={"app name"} />
                 </ListItem>
@@ -34,6 +76,17 @@ const InstallPackInfoStep = ({className,packInfo}: InstallPackInfoStepPropsType)
                 <ListItem>
                     <ListItemText primary={packInfo.type} secondary={"install as"} />
                 </ListItem>
+            </List>
+            <List
+                subheader={
+                    <ListSubheader>
+                        Install args
+                    </ListSubheader>
+                }
+            >
+                {
+                    packInfo.args.map(arg => (renderArg(arg)))
+                }
             </List>
         </div>
     )

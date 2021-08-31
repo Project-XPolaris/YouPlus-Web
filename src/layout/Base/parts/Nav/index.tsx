@@ -21,7 +21,7 @@ import {
 } from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 import {useUpdate} from "ahooks";
-import {ListSubheader, useMediaQuery} from "@material-ui/core";
+import {ListSubheader, Typography, useMediaQuery} from "@material-ui/core";
 import theme from "../../../../theme";
 import useLayoutModel from "../../../../model/layout";
 
@@ -68,7 +68,11 @@ export default function AppNavigation({}: AppNavigationPropsType) {
             open={layoutModel.showNav}
             onClose={() => layoutModel.setShowNav(false)}
         >
-            <Toolbar/>
+            <Toolbar title={"YouPlus"}>
+                <Typography variant={"h6"}>
+                    YouPlus
+                </Typography>
+            </Toolbar>
             <div className={classes.drawerContainer}>
                 <List
                     subheader={
