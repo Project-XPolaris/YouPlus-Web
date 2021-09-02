@@ -42,9 +42,10 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(2),
         },
         title:{
+            ...theme.typography.h4,
             flexGrow: 1,
-            color: "rgba(0,0,0,.78)",
-            ...theme.typography.h4
+            color: "rgba(0,0,0,.58)",
+            fontWeight: 300
         },
     })
 )

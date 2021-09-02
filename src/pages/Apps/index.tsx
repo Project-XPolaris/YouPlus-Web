@@ -1,16 +1,26 @@
-import React, {useState} from 'react';
-import {Button, Divider, Grid, Tab, Tabs} from "@material-ui/core";
-import AppCard from "../../components/AppCard";
+import React from 'react';
+import {
+    Box,
+    Button,
+    Chip,
+    FormControl,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    OutlinedInput,
+    Paper,
+    Select
+} from "@material-ui/core";
 import useAppsPageModel from "./model";
-import {App} from "../../api/apps";
 import useStyles from "./style";
 import InstallAppDialog from "../../components/InstallAppDialog";
 import useLayoutModel from "../../model/layout";
-import {Add} from "@material-ui/icons";
+import {Add, Delete, DeleteForever, PlayArrow, Stop} from "@material-ui/icons";
 import {useInterval} from "ahooks";
 import PageHead from "../../components/PageHead";
 import {usePageHeadController} from "../../components/PageHead/hook";
-import PathPickDialog from "../../components/PathPickDialog";
+import {App} from "../../api/apps";
+import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
 
 
 interface AppsPagePropsType {
@@ -26,6 +36,85 @@ export default function AppsPage({}: AppsPagePropsType) {
     useInterval(() => {
         model.loadApp();
     }, 3000, {immediate: true})
+    const [typeFilter, setTypeFiler] = React.useState<string[]>(["Service","Container"]);
+    const onTypeFilterChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setTypeFiler(event.target.value as string[]);
+    };
+    const getAppListRow = (): App[]  => {
+        return model.appList.filter(app => {
+            return typeFilter.find(it => it === app.type) !== undefined
+        })
+    }
+    const appColumns:GridColDef[] = [
+        {
+            field: 'id',
+            headerName: 'ID',
+            width: 150,
+            editable: false,
+        },
+        {
+            field: 'name',
+            headerName: 'Name',
+            width: 320,
+            editable: false,
+        },
+        {
+            field: 'type',
+            headerName: 'Type',
+            width: 150,
+            editable: false,
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            type: 'number',
+            width: 150,
+            editable: false,
+        },
+        {
+            field: 'action',
+            headerName: 'Actions',
+            type: 'number',
+            flex: 1,
+            editable: false,
+            disableExport: true,
+            disableReorder: true,
+            disableColumnMenu: true,
+            renderCell:params => {
+                return (
+                    <div>
+                        {
+                            params.row.status === "Stop" &&
+                            <IconButton size={"small"} onClick={() => {
+                                model.start(params.row.id)
+
+                            }}>
+                                <PlayArrow />
+                            </IconButton>
+                        }
+                        {
+                            params.row.status === "Running" &&
+                            <IconButton size={"small"} onClick={() => {
+                                model.stop(params.row.id)
+
+                            }}>
+                                <Stop />
+                            </IconButton>
+                        }
+                        {
+                            params.row.status === "Stop" &&
+                            <IconButton size={"small"} onClick={() => {
+                                model.uninstall(params.row.id)
+                            }}>
+                                <DeleteForever />
+                            </IconButton>
+                        }
+                    </div>
+
+                )
+            }
+        },
+    ];
     return (
         <div className={classes.root}>
             <InstallAppDialog
@@ -53,20 +142,52 @@ export default function AppsPage({}: AppsPagePropsType) {
                 </>}
             />
             <div className={classes.content}>
-                <Grid container spacing={2}>
-                    {model.appList.map((app: App) => (
-                        <Grid xs={12} sm={6} md={4} lg={3} xl={2} item>
-                            <AppCard
-                                app={app}
-                                onStart={() => model.start(app.id)}
-                                onStop={() => model.stop(app.id)}
-                                enableAutoStart={() => model.addToAutoStart(app.id)}
-                                disableAutoStart={() => model.removeAutoStart(app.id)}
-                                onRemove={() => model.uninstall(app.id)}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
+                <Paper className={classes.appListContainer}>
+
+                    <div className={classes.appListHeader}>
+                        <FormControl>
+                            <InputLabel variant="standard">
+                                Filter by type
+                            </InputLabel>
+                        <Select
+                            className={classes.appTypeFilter}
+                            multiple
+                            value={typeFilter}
+                            onChange={onTypeFilterChange}
+                            renderValue={(selected) => (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                                    {selected.map((value) => (
+                                        <Chip key={value} label={value} />
+                                    ))}
+                                </Box>
+                            )}
+                        >
+                            <MenuItem
+                                key="1"
+                                value="Service"
+                            >
+                                Service
+                            </MenuItem>
+                            <MenuItem
+                                key="2"
+                                value="Container"
+                            >
+                                Container
+                            </MenuItem>
+                        </Select>
+                        </FormControl>
+
+                    </div>
+                    <div className={classes.appList}>
+                        <DataGrid
+                            rows={getAppListRow()}
+                            columns={appColumns}
+                            disableSelectionOnClick
+                            autoPageSize={false}
+                            disableColumnSelector
+                        />
+                    </div>
+                </Paper>
             </div>
 
         </div>

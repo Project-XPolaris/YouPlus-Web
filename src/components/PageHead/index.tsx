@@ -11,7 +11,7 @@ import TaskPopup from "../../layout/Base/parts/Task";
 export interface PageHeadPropsType {
     className?: string
     title: string
-    tabs?:[]
+    tabs?:string[]
     controller:PageHeadController
     actions?:ReactElement
 }

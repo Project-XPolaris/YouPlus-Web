@@ -7,6 +7,7 @@ export type App = {
     id: string
     name: string
     pid: number
+    type:string,
     status: AppStatus
     auto_start: boolean
 }
