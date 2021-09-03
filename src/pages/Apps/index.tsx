@@ -1,26 +1,15 @@
 import React from 'react';
-import {
-    Box,
-    Button,
-    Chip,
-    FormControl,
-    IconButton,
-    InputLabel,
-    MenuItem,
-    OutlinedInput,
-    Paper,
-    Select
-} from "@material-ui/core";
+import {Box, Button, Chip, FormControl, IconButton, InputLabel, MenuItem, Paper, Select} from "@material-ui/core";
 import useAppsPageModel from "./model";
 import useStyles from "./style";
 import InstallAppDialog from "../../components/InstallAppDialog";
 import useLayoutModel from "../../model/layout";
-import {Add, Delete, DeleteForever, PlayArrow, Stop} from "@material-ui/icons";
+import {Add, DeleteForever, PlayArrow, Stop} from "@material-ui/icons";
 import {useInterval} from "ahooks";
 import PageHead from "../../components/PageHead";
 import {usePageHeadController} from "../../components/PageHead/hook";
 import {App} from "../../api/apps";
-import {DataGrid, GridColDef, GridRenderCellParams} from "@mui/x-data-grid";
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
 
 
 interface AppsPagePropsType {

@@ -14,7 +14,26 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingRight:theme.spacing(2),
             display: 'flex',
             justifyContent: 'flex-end'
-        }
+        },
+        content:{
+            display: 'flex',
+            padding: theme.spacing(2),
+            flexDirection: "column"
+        },
+        listContainer:{
+            height: "70vh",
+            width: "60vw",
+            alignSelf: "center",
+        },
+        listHead:{
+            backgroundColor: "#FAFAFA",
+            padding: theme.spacing(2),
+        },
+        listTitle:{
+            ...theme.typography.caption,
+            fontSize: 18
+        },
+
     }),
 );
 export default useStyles

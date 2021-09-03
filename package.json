@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
-    "@ant-design/charts": "^1.2.3",
+    "@ant-design/charts": "^1.2.11",
     "@emotion/react": "^11.1.4",
     "@emotion/style": "^0.8.0",
     "@emotion/styled": "^11.0.0",
