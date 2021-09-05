@@ -70,23 +70,25 @@ const ShareFolder = ({}: ShareFolderPropsType) => {
                             List
                         </div>
                     </div>
-                    <List>
-                        {
-                            model.folders.map(it => {
-                                return (
-                                    <ListItem key={it.name} button onClick={() => history.push(`/folder/${it.name}/info`)}>
-                                        <ListItemAvatar>
-                                            <Avatar className={classes.avatar}>
-                                                <Folder />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary={it.name}/>
-                                    </ListItem>
-                                )
-                            })
-                        }
+                    <div className={classes.listContent}>
+                        <List>
+                            {
+                                model.folders.map(it => {
+                                    return (
+                                        <ListItem key={it.name} button onClick={() => history.push(`/folder/${it.name}/info`)}>
+                                            <ListItemAvatar>
+                                                <Avatar className={classes.avatar}>
+                                                    <Folder />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary={it.name}/>
+                                        </ListItem>
+                                    )
+                                })
+                            }
+                        </List>
+                    </div>
 
-                    </List>
                 </Paper>
 
             </div>

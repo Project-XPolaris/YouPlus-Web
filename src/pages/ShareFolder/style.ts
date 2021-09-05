@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
             height: "70vh",
             width: "60vw",
             alignSelf: "center",
+            display: 'flex',
+            flexDirection: "column"
         },
         listHead:{
             backgroundColor: "#FAFAFA",
@@ -33,7 +35,10 @@ const useStyles = makeStyles((theme: Theme) =>
             ...theme.typography.caption,
             fontSize: 18
         },
-
+        listContent:{
+            flexGrow: 1,
+            overflow: 'auto'
+        }
     }),
 );
 export default useStyles
