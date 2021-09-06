@@ -2,9 +2,15 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     root: {
+
+    },
+    container:{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
     },
     content:{
-        padding: theme.spacing(2)
+        maxWidth: "50vw"
     },
     header: {
         display: 'flex'

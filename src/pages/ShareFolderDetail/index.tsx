@@ -18,7 +18,15 @@ export interface ShareFolderDetailPropsType {
 
 }
 
-type UserAndGroupPickModeType = "readUsers" | "writeUsers" | "validUsers" | "invalidUsers" | "validGroup" | "invalidGroup" | 'readGroup' | 'writeGroup'
+type UserAndGroupPickModeType =
+    "readUsers"
+    | "writeUsers"
+    | "validUsers"
+    | "invalidUsers"
+    | "validGroup"
+    | "invalidGroup"
+    | 'readGroup'
+    | 'writeGroup'
 type SwitchSelectTargetType = "public" | 'readonly' | "writable" | 'enable'
 const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
     const {name}: any = useParams();
@@ -78,7 +86,7 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
         }
         setPickUpUserMode(undefined)
     }
-    const onPickupGroupOk = (name:string) => {
+    const onPickupGroupOk = (name: string) => {
         if (!model.folder) {
             return
         }
@@ -158,235 +166,237 @@ const ShareFolderDetail = ({}: ShareFolderDetailPropsType): ReactElement => {
                 open={Boolean(switchSelectTarget)}
             />
 
-                <PageHead
-                    title={model.folder?.name ?? ""}
-                    controller={pageHeadController}
-                    actions={
-                        <>
-                            <Button
-                                variant={'text'}
-                                size={"small"}
-                                startIcon={<Delete/>}
-                                onClick={() => {
-                                    layoutModel.showConfirmDialog({
-                                        title: 'Remove Confirm',
-                                        message: 'Remove folder will lost ALL DATA in folder',
-                                        onOk: async () => {
-                                            await model.remove()
-                                            history.goBack()
-                                        }
+            <PageHead
+                title={model.folder?.name ?? ""}
+                controller={pageHeadController}
+                actions={
+                    <>
+                        <Button
+                            variant={'text'}
+                            size={"small"}
+                            startIcon={<Delete/>}
+                            onClick={() => {
+                                layoutModel.showConfirmDialog({
+                                    title: 'Remove Confirm',
+                                    message: 'Remove folder will lost ALL DATA in folder',
+                                    onOk: async () => {
+                                        await model.remove()
+                                        history.goBack()
+                                    }
+                                })
+                            }}
+                        >
+                            Remove folder
+                        </Button>
+                    </>
+                }
+            />
+            <div className={classes.container}>
+                <div className={classes.content}>
+                    <Grid container spacing={4} className={classes.grid}>
+                        <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
+                            <InfoCard label={"folder name"} value={model.folder?.name} valueSize={18}
+                                      className={classes.infoCard}/>
+                        </Grid>
+                        <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
+                            <InfoCard label={"storage"} value={model.folder?.storage.id} valueSize={18}
+                                      className={classes.infoCard}/>
+                        </Grid>
+                        <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
+                            <InfoCard
+                                label={"public"}
+                                value={model.folder?.public ? "yes" : "no"}
+                                valueSize={18}
+                                className={classes.infoCard}
+                                onEdit={() => setSwitchSelectTarget("public")}
+                            />
+                        </Grid>
+                        <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
+                            <InfoCard
+                                label={"readonly"}
+                                value={model.folder?.readonly ? "yes" : "no"}
+                                valueSize={18}
+                                className={classes.infoCard}
+                                onEdit={() => setSwitchSelectTarget("readonly")}
+                            />
+                        </Grid>
+                        <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
+                            <InfoCard
+                                label={"enable"}
+                                value={model.folder?.enable ? "yes" : "no"}
+                                valueSize={18}
+                                className={classes.infoCard}
+                                onEdit={() => setSwitchSelectTarget("enable")}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid className={classes.grid} container spacing={4}>
+                        <Grid xs={12} sm={6} xl={6} item>
+                            <UserAndGroupListCard
+                                users={model.folder?.validUsers}
+                                groups={model.folder?.validGroups}
+                                title={"valid list"}
+                                actions={
+                                    <>
+                                        <Button onClick={() => {
+                                            setPickUserExcept((model.folder?.validUsers ?? []).map(it => it.name))
+                                            setPickUpUserMode("validUsers")
+                                        }}>
+                                            add user
+                                        </Button>
+                                        <Button onClick={() => {
+                                            setPickGroupExcept((model.folder?.validGroups ?? []).map(it => it.name))
+                                            setPickUpGroupMode("validGroup")
+                                        }}>
+                                            add group
+                                        </Button>
+                                    </>
+                                }
+                                onRemoveUser={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        validUsers: model.folder?.validUsers.map(it => it.name).filter(it => it !== name)
                                     })
                                 }}
-                            >
-                                Remove folder
-                            </Button>
-                        </>
-                    }
-                />
-
-            <div className={classes.content}>
-                <Grid container spacing={4} className={classes.grid}>
-                    <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
-                        <InfoCard label={"folder name"} value={model.folder?.name} valueSize={18}
-                                  className={classes.infoCard}/>
-                    </Grid>
-                    <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
-                        <InfoCard label={"storage"} value={model.folder?.storage.id} valueSize={18}
-                                  className={classes.infoCard}/>
-                    </Grid>
-                    <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
-                        <InfoCard
-                            label={"public"}
-                            value={model.folder?.public ? "yes" : "no"}
-                            valueSize={18}
-                            className={classes.infoCard}
-                            onEdit={() => setSwitchSelectTarget("public")}
-                        />
-                    </Grid>
-                    <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
-                        <InfoCard
-                            label={"readonly"}
-                            value={model.folder?.readonly ? "yes" : "no"}
-                            valueSize={18}
-                            className={classes.infoCard}
-                            onEdit={() => setSwitchSelectTarget("readonly")}
-                        />
-                    </Grid>
-                    <Grid xs={12} sm={6} md={4} lg={3} xl={3} item>
-                        <InfoCard
-                            label={"enable"}
-                            value={model.folder?.enable ? "yes" : "no"}
-                            valueSize={18}
-                            className={classes.infoCard}
-                            onEdit={() => setSwitchSelectTarget("enable")}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid className={classes.grid} container spacing={4}>
-                    <Grid xs={12} sm={6} xl={4} item>
-                        <UserAndGroupListCard
-                            users={model.folder?.validUsers}
-                            groups={model.folder?.validGroups}
-                            title={"valid list"}
-                            actions={
-                                <>
-                                    <Button onClick={() => {
-                                        setPickUserExcept((model.folder?.validUsers ?? []).map(it => it.name))
-                                        setPickUpUserMode("validUsers")
-                                    }}>
-                                        add user
-                                    </Button>
-                                    <Button onClick={() => {
-                                        setPickGroupExcept((model.folder?.validGroups ?? []).map(it => it.name))
-                                        setPickUpGroupMode("validGroup")
-                                    }}>
-                                        add group
-                                    </Button>
-                                </>
-                            }
-                            onRemoveUser={(name) => {
-                                if (!model.folder) {
-                                    return
+                                onRemoveGroup={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        validGroups: model.folder?.validGroups.map(it => it.name).filter(it => it !== name)
+                                    })
+                                }}
+                            />
+                        </Grid>
+                        <Grid xs={12} sm={6} xl={6} item>
+                            <UserAndGroupListCard
+                                users={model.folder?.invalidUsers}
+                                groups={model.folder?.invalidGroups}
+                                title={"invalid list"}
+                                actions={
+                                    <>
+                                        <Button onClick={() => {
+                                            setPickUserExcept((model.folder?.invalidUsers ?? []).map(it => it.name))
+                                            setPickUpUserMode("invalidUsers")
+                                        }}>
+                                            add user
+                                        </Button>
+                                        <Button onClick={() => {
+                                            setPickGroupExcept((model.folder?.invalidGroups ?? []).map(it => it.name))
+                                            setPickUpGroupMode("invalidGroup")
+                                        }}>
+                                            add group
+                                        </Button>
+                                    </>
                                 }
-                                model.update({
-                                    validUsers: model.folder?.validUsers.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                            onRemoveGroup={(name) => {
-                                if (!model.folder) {
-                                    return
+                                onRemoveUser={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        public: model.folder.public,
+                                        enable: model.folder.enable,
+                                        readonly: model.folder.readonly,
+                                        invalidUsers: model.folder?.invalidUsers.map(it => it.name).filter(it => it !== name)
+                                    })
+                                }}
+                                onRemoveGroup={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        public: model.folder.public,
+                                        enable: model.folder.enable,
+                                        readonly: model.folder.readonly,
+                                        invalidGroups: model.folder?.invalidGroups.map(it => it.name).filter(it => it !== name)
+                                    })
+                                }}
+                            />
+                        </Grid>
+                        <Grid xs={12} sm={6} xl={6} item>
+                            <UserAndGroupListCard
+                                users={model.folder?.readUsers}
+                                groups={model.folder?.readGroups}
+                                title={"read list"}
+                                actions={
+                                    <>
+                                        <Button onClick={() => {
+                                            setPickUserExcept((model.folder?.readUsers ?? []).map(it => it.name))
+                                            setPickUpUserMode("readUsers")
+                                        }}>
+                                            add user
+                                        </Button>
+                                        <Button onClick={() => {
+                                            setPickGroupExcept((model.folder?.readGroups ?? []).map(it => it.name))
+                                            setPickUpGroupMode("readGroup")
+                                        }}>
+                                            add group
+                                        </Button>
+                                    </>
                                 }
-                                model.update({
-                                    validGroups: model.folder?.validGroups.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                        />
+                                onRemoveUser={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        readUsers: model.folder?.readUsers.map(it => it.name).filter(it => it !== name)
+                                    })
+                                }}
+                                onRemoveGroup={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        readGroups: model.folder?.readGroups.map(it => it.name).filter(it => it !== name)
+                                    })
+                                }}
+                            />
+                        </Grid>
+                        <Grid xs={12} sm={6} xl={6} item>
+                            <UserAndGroupListCard
+                                users={model.folder?.writeUsers}
+                                groups={model.folder?.writeGroups}
+                                title={"write list"}
+                                onRemoveUser={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        writeUsers: model.folder?.writeUsers.map(it => it.name).filter(it => it !== name)
+                                    })
+                                }}
+                                onRemoveGroup={(name) => {
+                                    if (!model.folder) {
+                                        return
+                                    }
+                                    model.update({
+                                        writeGroups: model.folder?.writeGroups.map(it => it.name).filter(it => it !== name)
+                                    })
+                                }}
+                                actions={
+                                    <>
+                                        <Button onClick={() => {
+                                            setPickUserExcept((model.folder?.writeUsers ?? []).map(it => it.name))
+                                            setPickUpUserMode("writeUsers")
+                                        }}>
+                                            add user
+                                        </Button>
+                                        <Button onClick={() => {
+                                            setPickGroupExcept((model.folder?.writeGroups ?? []).map(it => it.name))
+                                            setPickUpGroupMode("writeGroup")
+                                        }}>
+                                            add group
+                                        </Button>
+                                    </>
+                                }
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid xs={12} sm={6} xl={4} item>
-                        <UserAndGroupListCard
-                            users={model.folder?.invalidUsers}
-                            groups={model.folder?.invalidGroups}
-                            title={"invalid list"}
-                            actions={
-                                <>
-                                    <Button onClick={() => {
-                                        setPickUserExcept((model.folder?.invalidUsers ?? []).map(it => it.name))
-                                        setPickUpUserMode("invalidUsers")
-                                    }}>
-                                        add user
-                                    </Button>
-                                    <Button onClick={() => {
-                                        setPickGroupExcept((model.folder?.invalidGroups ?? []).map(it => it.name))
-                                        setPickUpGroupMode("invalidGroup")
-                                    }}>
-                                        add group
-                                    </Button>
-                                </>
-                            }
-                            onRemoveUser={(name) => {
-                                if (!model.folder) {
-                                    return
-                                }
-                                model.update({
-                                    public: model.folder.public,
-                                    enable: model.folder.enable,
-                                    readonly: model.folder.readonly,
-                                    invalidUsers: model.folder?.invalidUsers.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                            onRemoveGroup={(name) => {
-                                if (!model.folder) {
-                                    return
-                                }
-                                model.update({
-                                    public: model.folder.public,
-                                    enable: model.folder.enable,
-                                    readonly: model.folder.readonly,
-                                    invalidGroups: model.folder?.invalidGroups.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                        />
-                    </Grid>
-                    <Grid xs={12} sm={6} xl={4} item>
-                        <UserAndGroupListCard
-                            users={model.folder?.readUsers}
-                            groups={model.folder?.readGroups}
-                            title={"read list"}
-                            actions={
-                                <>
-                                    <Button onClick={() => {
-                                        setPickUserExcept((model.folder?.readUsers ?? []).map(it => it.name))
-                                        setPickUpUserMode("readUsers")
-                                    }}>
-                                        add user
-                                    </Button>
-                                    <Button onClick={() => {
-                                        setPickGroupExcept((model.folder?.readGroups ?? []).map(it => it.name))
-                                        setPickUpGroupMode("readGroup")
-                                    }}>
-                                        add group
-                                    </Button>
-                                </>
-                            }
-                            onRemoveUser={(name) => {
-                                if (!model.folder) {
-                                    return
-                                }
-                                model.update({
-                                    readUsers: model.folder?.readUsers.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                            onRemoveGroup={(name) => {
-                                if (!model.folder) {
-                                    return
-                                }
-                                model.update({
-                                    readGroups: model.folder?.readGroups.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                        />
-                    </Grid>
-                    <Grid xs={12} sm={6} xl={4} item>
-                        <UserAndGroupListCard
-                            users={model.folder?.writeUsers}
-                            groups={model.folder?.writeGroups}
-                            title={"write list"}
-                            onRemoveUser={(name) => {
-                                if (!model.folder) {
-                                    return
-                                }
-                                model.update({
-                                    writeUsers: model.folder?.writeUsers.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                            onRemoveGroup={(name) => {
-                                if (!model.folder) {
-                                    return
-                                }
-                                model.update({
-                                    writeGroups: model.folder?.writeGroups.map(it => it.name).filter(it => it !== name)
-                                })
-                            }}
-                            actions={
-                                <>
-                                    <Button onClick={() => {
-                                        setPickUserExcept((model.folder?.writeUsers ?? []).map(it => it.name))
-                                        setPickUpUserMode("writeUsers")
-                                    }}>
-                                        add user
-                                    </Button>
-                                    <Button onClick={() => {
-                                        setPickGroupExcept((model.folder?.writeGroups ?? []).map(it => it.name))
-                                        setPickUpGroupMode("writeGroup")
-                                    }}>
-                                        add group
-                                    </Button>
-                                </>
-                            }
-                        />
-                    </Grid>
-                </Grid>
+                </div>
             </div>
+
 
         </div>
     )

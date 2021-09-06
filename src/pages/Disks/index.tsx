@@ -1,23 +1,11 @@
 import React, {useEffect} from "react";
 import useDisksModel from "./model";
-import {
-    Avatar,
-    Grid, Link,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    Paper,
-    Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow,
-    Typography
-} from "@material-ui/core";
+import {Avatar, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import useStyles from "./style";
-import DiskCard from "../../components/DiskCard";
 import {useHistory} from "react-router-dom";
 import {usePageHeadController} from "../../components/PageHead/hook";
 import PageHead from "../../components/PageHead";
-import {Folder, Storage} from "@material-ui/icons";
+import {Storage} from "@material-ui/icons";
 import filesize from "filesize";
 
 export interface DisksPagePropsType {
