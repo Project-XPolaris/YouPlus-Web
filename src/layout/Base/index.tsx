@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         content: {
             flexGrow: 1,
             minHeight: "100vh",
-            backgroundColor: "#f6f7f9",
+            backgroundColor: "#EEEEEE",
         },
     }),
 );

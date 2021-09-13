@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
         title:{
             ...theme.typography.h4,
             flexGrow: 1,
-            color: "rgba(0,0,0,.58)",
+            color: "rgba(0,0,0,.75)",
             fontWeight: 300
         },
     })
