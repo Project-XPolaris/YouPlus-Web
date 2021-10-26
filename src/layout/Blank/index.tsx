@@ -24,6 +24,7 @@ import UserDetail from "../../pages/UserDetail";
 import DiskDetailPage from "../../pages/DiskDetail";
 import NetworkPage from "../../pages/Network";
 import NetworkDetail from "../../pages/NetworkDetail";
+import LogsPage from "../../pages/Logs";
 
 export interface BlankLayoutPropsType {
 
@@ -161,6 +162,11 @@ const BlankLayout = ({}: BlankLayoutPropsType) => {
                     <Route path="/system">
                         <BaseLayout>
                             <SystemPage/>
+                        </BaseLayout>
+                    </Route>
+                    <Route path="/logs">
+                        <BaseLayout>
+                            <LogsPage/>
                         </BaseLayout>
                     </Route>
                     <Route path="/">

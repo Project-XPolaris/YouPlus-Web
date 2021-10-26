@@ -13,7 +13,7 @@ import {
     Dashboard,
     Dns,
     Folder,
-    Group, Link,
+    Group, InsertChart, Link,
     NetworkCell,
     Person,
     Settings,
@@ -207,6 +207,17 @@ export default function AppNavigation({}: AppNavigationPropsType) {
                             <Group/>
                         </ListItemIcon>
                         <ListItemText primary={"Groups"}/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={"logs"}
+                        selected={history.location.pathname === "/logs"}
+                        onClick={() => changeUrl("/logs")}
+                    >
+                        <ListItemIcon>
+                            <InsertChart/>
+                        </ListItemIcon>
+                        <ListItemText primary={"Logs"}/>
                     </ListItem>
                 </List>
                 <List
